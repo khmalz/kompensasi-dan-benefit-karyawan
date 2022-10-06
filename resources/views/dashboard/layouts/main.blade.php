@@ -136,9 +136,9 @@
          <div class="navbar-nav w-100">
             <div class="nav-item text-nowrap d-md-flex justify-content-between align-items-center">
                @can('admin')
-               <a class="nav-link px-3 text-dark fs-5">Welcome, Admin</a>
+               <a class="nav-link px-3 text-dark fs-5">Selamat Datang, Admin</a>
                @else
-               <a class="nav-link px-3 text-dark fs-5">Welcome, {{ auth()->user()->name }}</a>
+               <a class="nav-link px-3 text-dark fs-5">Selamat Datang, {{ auth()->user()->name }}</a>
                @endcan
                <form action="{{ route('logout') }}" method="post" id="logout">
                   @csrf

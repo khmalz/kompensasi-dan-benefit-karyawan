@@ -35,12 +35,12 @@
                <table class="table text-center">
                   <thead>
                     <tr>
-                      <th scope="col">Date</th>
+                      <th scope="col">Tanggal</th>
                       <th scope="col">Kode</th>
                       <th scope="col">Jenis Tunjangan</th>
                       <th scope="col">Besar Tunjangan</th>
                       <th scope="col">Status</th>
-                      <th scope="col">Action</th>
+                      <th scope="col">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -73,12 +73,12 @@
                <table class="table text-center">
                   <thead>
                     <tr>
-                      <th scope="col">Date</th>
+                      <th scope="col">Tanggal</th>
                       <th scope="col">Kode</th>
                       <th scope="col">Jenis Tunjangan</th>
                       <th scope="col">Besar Tunjangan</th>
                       <th scope="col">Status</th>
-                      <th scope="col">Action</th>
+                      <th scope="col">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -111,12 +111,12 @@
                <table class="table text-center">
                   <thead>
                     <tr>
-                      <th scope="col">Date</th>
+                      <th scope="col">Tanggal</th>
                       <th scope="col">Kode</th>
                       <th scope="col">Jenis Tunjangan</th>
                       <th scope="col">Besar Tunjangan</th>
                       <th scope="col">Status</th>
-                      <th scope="col">Action</th>
+                      <th scope="col">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>

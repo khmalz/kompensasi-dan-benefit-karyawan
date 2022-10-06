@@ -29,7 +29,7 @@ class LoginController extends Controller
             return redirect()->intended('/dashboardKaryawan');
         }
 
-        return back()->with('fail', 'Your Login is Failed');
+        return back()->with('fail', 'Kamu Gagal Login');
     }
 
     public function logout(Request $request)

@@ -2,7 +2,7 @@
 
 @section('isi')
    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
-      <h1 class="h2">Personal Information</h1>
+      <h1 class="h2">Informasi Personal</h1>
    </div>
 
    <div class="card mb-3 border-0">

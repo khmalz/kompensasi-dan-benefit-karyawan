@@ -63,7 +63,7 @@
                      <form action="/dashboardAdmin/{{ $karyawan->user_id }}" method="post" class="d-inline">
                         @method('delete')
                         @csrf
-                        <button type="submit" class="badge text-bg-danger border-0"><span data-feather="trash"></span></button>
+                        <button onclick="return confirm('Apakah Yakin?')" type="submit" class="badge text-bg-danger border-0"><span data-feather="trash"></span></button>
                      </form>
                      <a href="/dashboardAdmin/{{ $karyawan->nik }}/edit" class="badge text-bg-info text-light border-0"><span data-feather="edit"></span></a>
                    </td>

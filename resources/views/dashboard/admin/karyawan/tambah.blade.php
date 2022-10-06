@@ -13,11 +13,11 @@
                @csrf
                <div class="form-floating mb-3">
                   <input type="text" class="form-control" name="name" id="floatingInput" placeholder="name@example.com" />
-                  <label for="floatingInput">Name</label>
+                  <label for="floatingInput">Nama</label>
                </div>
                <div class="form-floating mb-3">
                   <input type="email" class="form-control" name="email" id="floatingInput" placeholder="name@example.com" />
-                  <label for="floatingInput">Email address</label>
+                  <label for="floatingInput">Email</label>
                </div>
                <div class="form-floating mb-3">
                   <input type="password" class="form-control" name="password" id="floatingPassword" placeholder="Password" />
@@ -42,7 +42,7 @@
                   <input type="date" class="form-control" name="tanggal_masuk" id="floatingInput" placeholder="name@example.com" />
                   <label for="floatingInput">Tanggal Masuk</label>
                </div>
-               <button type="submit" class="btn btn-success mt-3">Submit</button>
+               <button type="submit" class="btn btn-success mt-3">Kirim</button>
             </form>
          </div>
       </div>

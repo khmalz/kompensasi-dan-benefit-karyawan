@@ -2,21 +2,21 @@
 
 @section('isi')
 <div class="d-md-flex justify-content-sm-between flex-wrap pb-2 mb-3">
-   <h1 class="h4 detail-judul">Tunjangan Information <span class="fw-lighter">|</span> <span class="text-primary">#{{ $tunjangan->kode }}</span></h1>
+   <h1 class="h4 detail-judul">Tunjangan Informasi <span class="fw-lighter">|</span> <span class="text-primary">#{{ $tunjangan->kode }}</span></h1>
    @can('admin')
    <div class="btn-group">
       <button type="button" class="btn btn-info btn-sm text-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-         Action
+         Aksi
       </button>
       <ul class="dropdown-menu">
          <li>
          <form action="/tunjangan/pdf/{{ $tunjangan->kode }}" method="post">
             @csrf
-            <a class="dropdown-item pdf-button" href="#">Export Data to PDF</a>
+            <a class="dropdown-item pdf-button" href="#">Ekspor Data ke PDF</a>
          </form>
          </li>
          <li><hr class="dropdown-divider"></li>
-         <li><a class="dropdown-item" href="#" role="button" data-bs-toggle="modal" data-bs-target="#tanggapan">Response</a></li>
+         <li><a class="dropdown-item" href="#" role="button" data-bs-toggle="modal" data-bs-target="#tanggapan">Tanggapan</a></li>
       </ul>
    </div> 
    
@@ -54,7 +54,7 @@
    @else
     <form action="/tunjangan/pdf/{{ $tunjangan->kode }}" method="post">
       @csrf
-      <a class="btn btn-info text-light btn-sm pdf-button" href="#">Export Data to PDF</a>
+      <a class="btn btn-info text-light btn-sm pdf-button" href="#">Ekspor Data ke PDF</a>
    </form>
    @endcan
 </div>

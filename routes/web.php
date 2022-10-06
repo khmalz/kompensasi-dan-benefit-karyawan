@@ -56,7 +56,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Halaman Permintaan Tunjangan
     Route::get('/tunjangan-sudah', function () {
-        $tunjangans = Tunjangan::where('status', 'sudah')->get();
+        $tunjangans = Tunjangan::with('karyawan')->where('status', 'sudah')->get();
         return view('dashboard.admin.tunjangan.index-sudah', compact('tunjangans'));
     });
     Route::resource('/tanggapan', TanggapanController::class);

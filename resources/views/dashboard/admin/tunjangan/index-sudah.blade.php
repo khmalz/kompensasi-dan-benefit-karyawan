@@ -18,18 +18,20 @@
                   <thead>
                     <tr>
                       <th scope="col">No</th>
-                      <th scope="col">Date</th>
+                      <th scope="col">Nama</th>
+                      <th scope="col">Tanggal</th>
                       <th scope="col">Kode</th>
                       <th scope="col">Jenis Tunjangan</th>
                       <th scope="col">Besar Tunjangan</th>
                       <th scope="col">Status</th>
-                      <th scope="col">Action</th>
+                      <th scope="col">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
                      @foreach ($tunjangans->where('status', 'sudah') as $tunjangan)
                      <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td >{{ $tunjangan->karyawan->nama }}</td>
                         <td>{{ $tunjangan->created_at->isoFormat('D MMM Y') }}</td>
                         <td >{{ $tunjangan->kode }}</td>
                         <td class="text-capitalize">Tunjangan {{ $tunjangan->jenis_tunjangan }}</td>

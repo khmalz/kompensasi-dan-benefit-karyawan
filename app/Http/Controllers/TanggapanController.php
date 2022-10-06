@@ -42,8 +42,6 @@ class TanggapanController extends Controller
     {
         $user = User::find($request->id);
 
-        Notification::send($user, new TunjanganNotification($request->kode, $request->status));
-
         Tanggapan::create([
             'kode_tunjangan' => $request->kode,
             'pesan' => $request->pesan,
@@ -52,6 +50,8 @@ class TanggapanController extends Controller
         Tunjangan::where('kode', $request->kode)->update([
             'status' => $request->status,
         ]);
+
+        Notification::send($user, new TunjanganNotification($request->kode, $request->status));
 
         return redirect('tunjangan')->with('success', 'Berhasil Mengirim Tanggapan');
     }

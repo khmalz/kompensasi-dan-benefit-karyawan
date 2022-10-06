@@ -62,7 +62,7 @@
                   @csrf
                   <div class="form-floating text-start rounded @error('email') is-invalid @enderror">
                      <input name="email" type="email" class="form-control @error('email') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{ old('email') }}"/>
-                     <label for="floatingInput">Email address</label>
+                     <label for="floatingInput">Email</label>
                   </div>
                   @error('email')
                      <div class="invalid-feedback mt-2">
