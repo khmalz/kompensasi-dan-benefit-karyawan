@@ -30,6 +30,7 @@
                @csrf
                <div class="modal-body">
                   <input type="hidden" name="kode" value="{{ $tunjangan->kode }}">
+                  <input type="hidden" name="id" value="{{ $tunjangan->karyawan->user_id }}">
                   <div class="mb-3">
                      <label for="select" class="form-label">Status</label>
                      <select class="form-select" name="status" id="select" aria-label="Floating label select example">

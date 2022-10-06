@@ -74,6 +74,13 @@ Route::middleware(['auth', 'karyawan'])->group(function () {
         $tunjangans = Tunjangan::where('karyawan_nik', auth()->user()->karyawan->nik)->get();
         return view('dashboard.karyawan.riwayat', compact('tunjangans'));
     });
+
+    Route::get('/dibaca/{notifications:id}', function ($id) {
+        if ($id) {
+            auth()->user()->unreadNotifications->markAsRead();
+        }
+        return back();
+    });
 });
 
 // Route::get('/dashboard', function () {

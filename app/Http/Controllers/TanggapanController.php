@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Karyawan;
 use App\Models\Tanggapan;
 use App\Models\Tunjangan;
 use Illuminate\Http\Request;
+use App\Notifications\TunjanganNotification;
+use Illuminate\Support\Facades\Notification;
 
 class TanggapanController extends Controller
 {
@@ -36,6 +40,10 @@ class TanggapanController extends Controller
      */
     public function store(Request $request)
     {
+        $user = User::find($request->id);
+
+        Notification::send($user, new TunjanganNotification($request->kode, $request->status));
+
         Tanggapan::create([
             'kode_tunjangan' => $request->kode,
             'pesan' => $request->pesan,

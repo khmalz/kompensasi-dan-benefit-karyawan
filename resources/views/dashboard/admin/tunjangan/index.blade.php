@@ -42,7 +42,7 @@
                         <tr>
                            <td>{{ $loop->iteration }}</td>
                            <td>{{ $tunjangan->karyawan->nama }}</td>
-                           <td>{{ $tunjangan->created_at->format('d M Y') }}</td>
+                           <td>{{ $tunjangan->created_at->isoFormat('D MMM Y') }}</td>
                            <td >{{ $tunjangan->kode }}</td>
                            <td class="text-capitalize">Tunjangan {{ $tunjangan->jenis_tunjangan }}</td>
                            <td>{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>
@@ -92,7 +92,7 @@
                         <tr>
                            <td>{{ $loop->iteration }}</td>
                            <td>{{ $tunjangan->karyawan->nama }}</td>
-                           <td>{{ $tunjangan->created_at->format('d M Y') }}</td>
+                           <td>{{ $tunjangan->created_at->isoFormat('D MMM Y') }}</td>
                            <td >{{ $tunjangan->kode }}</td>
                            <td class="text-capitalize">Tunjangan {{ $tunjangan->jenis_tunjangan }}</td>
                            <td>{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>

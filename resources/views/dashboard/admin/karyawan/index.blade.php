@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main')
 
 @section('isi')
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
       <a href="{{ route('dashboardAdmin.create') }}" class="btn btn-success"><small>Tambahkan Data</small></a>
    </div>
 
