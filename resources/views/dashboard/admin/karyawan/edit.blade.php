@@ -1,0 +1,49 @@
+@extends('dashboard.layouts.main')
+
+@section('isi')
+
+<div class="row">
+   <div class="col">
+      <div class="card mb-3 border-0">
+         <div class="row mx-auto my-3">
+            <h3>Edit Data</h3>
+         </div>
+         <div class="row mx-auto px-5 w-100 py-5">
+            <form action="/dashboardAdmin/{{ $karyawan->nik }}" method="post">
+               @method('put')
+               @csrf
+               <div class="form-floating mb-3">
+                  <input type="text" class="form-control" name="name" id="floatingInput" placeholder="name@example.com" value="{{ old('name', $karyawan->nama) }}" />
+                  <label for="floatingInput">Name</label>
+               </div>
+               <div class="form-floating mb-3">
+                  <input type="email" class="form-control" name="email" id="floatingInput" placeholder="name@example.com" value="{{ old('email', $karyawan->user->email) }}"/>
+                  <label for="floatingInput">Email address</label>
+               </div>
+               <div class="form-floating mb-3">
+                  <input type="text" class="form-control" name="nik" id="floatingInput" placeholder="name@example.com" value="{{ old('nik', $karyawan->nik) }}"/>
+                  <label for="floatingInput">NIK</label>
+               </div>
+               <div class="form-floating mb-3">
+                  <select class="form-select" name="status" id="floatingSelect" aria-label="Floating label select example">
+                    <option {{ old('nik', $karyawan->status) == 'permanen' ? 'selected' : ''  }} value="permanen">Permanen</option>
+                    <option {{ old('nik', $karyawan->status) == 'kontrak' ? 'selected' : ''  }} value="kontrak">Kontrak</option>
+                  </select>
+                  <label for="floatingSelect">Status</label>
+                </div>
+               <div class="form-floating mb-3">
+                  <input type="text" class="form-control" name="lokasi" id="floatingInput" placeholder="name@example.com" value="{{ old('lokasi', $karyawan->lokasi) }}"/>
+                  <label for="floatingInput">Lokasi</label>
+               </div>
+               <div class="form-floating mb-3">
+                  <input type="date" class="form-control" name="tanggal_masuk" id="floatingInput" placeholder="name@example.com" value="{{ old('tanggal_masuk', date('Y-m-d', strtotime($karyawan->tanggal_masuk))) }}"/>
+                  <label for="floatingInput">Tanggal Masuk</label>
+               </div>
+               <button type="submit" class="btn btn-success mt-3">Submit</button>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+
+@endsection
