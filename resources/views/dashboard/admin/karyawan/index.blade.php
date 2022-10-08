@@ -32,7 +32,8 @@
          </div>
       </div>
    @endif
-   
+
+   @if ($karyawans->isNotEmpty())
    <div class="row">
       <div class="col">
          <div class="card mb-3 border-0 p-2 table-responsive-lg rounded-3 shadow-sm">
@@ -78,4 +79,19 @@
          </div>
       </div>
    </div>
+   @else
+   <div class="row justify-content-center mt-5 pt-5">
+      <div class="col-md-7">
+         <div class="card border-0 shadow-sm rounded-3">
+            <div class="row ms-0 ms-md-2 justify-content-center mt-3">
+               <div class="col text-center py-4">
+                  <h1 class="display-2 fw-semibold">404</h1>
+                  <p class="fs-5">Data Karyawan <span class="text-danger">Tidak Ditemukan</span></p>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   @endif
+   
 @endsection

@@ -83,9 +83,11 @@ Route::middleware(['auth', 'karyawan'])->group(function () {
         return view('dashboard.karyawan.riwayat', compact('tunjangans'));
     });
 
-    Route::get('/dibaca/{notifications}', function ($id) {
+    Route::get('/dibaca/{notifications?}', function ($id = null) {
         if ($id) {
             auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+        } else {
+            auth()->user()->unreadNotifications->markAsRead();
         }
         return back();
     });

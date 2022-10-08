@@ -118,6 +118,7 @@
 </div> --}}
 
 <div class="card mb-3 border-0 shadow-sm rounded-3">
+
    <div class="row ms-0 ms-md-2 align-items-center justify-content-center justify-content-md-between">
       <div class="col-6 col-md-2">
          <img src="{{ asset('images/Anon Bussines.png') }}" class="img-fluid rounded-pill mb-2" alt="Bussines Man" />

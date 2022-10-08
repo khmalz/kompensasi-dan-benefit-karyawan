@@ -9,21 +9,19 @@
 
 @foreach (auth()->user()->unreadnotifications as $notification)
 <div class="row g-0 mb-4">
-   <div class="alert alert-success d-flex align-items-center justify-content-between" role="alert">
+   <div class="alert alert-success d-md-flex align-items-center justify-content-between" role="alert">
       <div>
          @if ($notification->data['status'] == 'sedang')
          <span>Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> sedang dalam proses</span>
          @else
          <span>Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> sudah selesai diproses</span>
          @endif
-         <span class="text-secondary d-block">{{ $notification->created_at->isoFormat('D MMMM, Y') }} pada {{ $notification->created_at->format('H:i') }} | {{ $notification->created_at->diffForHumans() }}</span>
+         <span class="text-secondary d-block mb-1 mb-md-0">{{ $notification->created_at->isoFormat('D MMMM, Y') }} pada {{ $notification->created_at->format('H:i') }} | {{ $notification->created_at->diffForHumans() }}</span>
       </div>
       <a class="text-success" href="/dibaca/{{ $notification->id }}">Tandai Dibaca</a>
     </div>
 </div>
 @endforeach
-{{-- @if (!empty(auth()->user()->notifications))
-@endif --}}
 
 @if ($tunjangans->isNotEmpty())
 
@@ -147,18 +145,18 @@
 </div>
 @else
 
-<div class="row justify-content-center mt-5 pt-5">
-   <div class="col-md-7">
-      <div class="card border-0">
-         <div class="row ms-0 ms-md-2 justify-content-center mt-3">
-            <div class="col text-center py-4">
-               <h1 class="display-2 fw-semibold">404</h1>
-               <p class="fs-5">Permintaan Tunjangan <span class="text-danger">Belum Tersedia</span></p>
+   <div class="row justify-content-center mt-5 pt-5">
+      <div class="col-md-7">
+         <div class="card border-0 shadow-sm rounded-3">
+            <div class="row ms-0 ms-md-2 justify-content-center mt-3">
+               <div class="col text-center py-4">
+                  <h1 class="display-2 fw-semibold">404</h1>
+                  <p class="fs-5">Permintaan Tunjangan <span class="text-danger">Tidak Ditemukan</span></p>
+               </div>
             </div>
          </div>
       </div>
    </div>
-</div>
     
 @endif
 

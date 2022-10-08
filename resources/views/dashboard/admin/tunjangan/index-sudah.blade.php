@@ -62,11 +62,11 @@
 @else
    <div class="row justify-content-center mt-5 pt-5">
       <div class="col-md-7">
-         <div class="card border-0">
+         <div class="card border-0 shadow-sm rounded-3">
             <div class="row ms-0 ms-md-2 justify-content-center mt-3">
                <div class="col text-center py-4">
                   <h1 class="display-2 fw-semibold">404</h1>
-                  <p class="fs-5">Tunjangan <span class="text-danger">Belum Tersedia</span></p>
+                  <p class="fs-5">Permintaan Tunjangan <span class="text-danger">Tidak Ditemukan</span></p>
                </div>
             </div>
          </div>
