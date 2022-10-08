@@ -69,7 +69,7 @@ class DatabaseSeeder extends Seeder
         Tunjangan::create([
             'kode' => '69P1CZGV0Q',
             'karyawan_nik' => 'RTS20210711',
-            'jenis_tunjangan' => 'kesehatan',
+            'jenis_tunjangan' => 'tunjangan_kesehatan',
             'besar_tunjangan' => 100000,
             'status' => 'belum',
             'pesan' => 'Untuk Mengobati Flu',
@@ -79,7 +79,7 @@ class DatabaseSeeder extends Seeder
         Tunjangan::create([
             'kode' => 'X9AJH4OWVM',
             'karyawan_nik' => 'RTS20210711',
-            'jenis_tunjangan' => 'pernikahan',
+            'jenis_tunjangan' => 'tunjangan_pernikahan',
             'besar_tunjangan' => 1000000,
             'status' => 'sedang',
             'pesan' => 'Menikah',
@@ -87,19 +87,19 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Tunjangan::create([
-            'kode' => 'SUJ7HWQ9GT',
+            'kode' => 'GA1JA6OWBM',
             'karyawan_nik' => 'RTS20210711',
-            'jenis_tunjangan' => 'kesehatan',
-            'besar_tunjangan' => 200000,
+            'jenis_tunjangan' => 'tunjangan_pernikahan',
+            'besar_tunjangan' => 1000000,
             'status' => 'sudah',
-            'pesan' => 'Untuk Mengobati Sakit Demam',
-            'bukti' => '20221003030840.jpg'
+            'pesan' => 'Menikah',
+            'bukti' => '20221005092955.jpg'
         ]);
 
         Tunjangan::create([
             'kode' => 'J5N1ZF6BVE',
             'karyawan_nik' => 'RTS20210712',
-            'jenis_tunjangan' => 'kesehatan',
+            'jenis_tunjangan' => 'tunjangan_kesehatan',
             'besar_tunjangan' => 100000,
             'status' => 'belum',
             'pesan' => 'Untuk Berobat',
@@ -109,7 +109,7 @@ class DatabaseSeeder extends Seeder
         Tunjangan::create([
             'kode' => 'RS2QPZLJ3G',
             'karyawan_nik' => 'RTS20210712',
-            'jenis_tunjangan' => 'bencana',
+            'jenis_tunjangan' => 'tunjangan_bencana',
             'besar_tunjangan' => 1000000,
             'status' => 'sedang',
             'pesan' => 'Untuk Memperbaiki Laptop',
@@ -117,12 +117,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Tunjangan::create([
-            'kode' => 'ISAUT0RQ6Z',
+            'kode' => 'S52AV8LJ3J',
             'karyawan_nik' => 'RTS20210712',
-            'jenis_tunjangan' => 'bencana',
-            'besar_tunjangan' => 2000000,
+            'jenis_tunjangan' => 'tunjangan_bencana',
+            'besar_tunjangan' => 1000000,
             'status' => 'sudah',
-            'pesan' => 'Untuk Memperbaiki Handphone',
+            'pesan' => 'Untuk Memperbaiki Laptop',
             'bukti' => '20221003031027.jpg'
         ]);
     }

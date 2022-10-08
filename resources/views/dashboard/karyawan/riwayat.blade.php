@@ -1,8 +1,13 @@
 @extends('dashboard.layouts.main')
 
 @section('isi')
+<form class="d-flex col-md-7 col-lg-5 pb-2 mb-3" role="search" method="get">
+   <input id="tanggal" class="form-control form-control-sm me-2" type="date" name="tanggal" value="{{ request()->tanggal ?? "" }}" placeholder="Masukkan Tanggal" aria-label="Pencarian">
+   <button id="submit" class="btn btn-outline-success btn-sm w-25" disabled type="submit">Cari</button>
+   <a href="/riwayat-tunjangan" class="btn btn-outline-danger btn-sm w-25 ms-2 {{ request()->tanggal ? "" : "disabled"}}">Reset</a>
+ </form>
 
-@foreach (auth()->user()->readnotifications as $notification)
+@foreach (auth()->user()->unreadnotifications as $notification)
 <div class="row g-0 mb-4">
    <div class="alert alert-success d-flex align-items-center justify-content-between" role="alert">
       <div>
@@ -48,7 +53,7 @@
                      <tr>
                         <td>{{ $tunjangan->created_at->isoFormat('D MMM Y') }}</td>
                         <td >{{ $tunjangan->kode }}</td>
-                        <td class="text-capitalize">Tunjangan {{ $tunjangan->jenis_tunjangan }}</td>
+                        <td class="text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</td>
                         <td>{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>
                         <td class="text-capitalize"><span class="badge text-bg-danger text-danger" style="--bs-bg-opacity: .3;">{{ $tunjangan->status }}</span></td>
                         <td><a href="/tunjangan/{{ $tunjangan->kode }}" class="badge text-bg-primary border-0"><span data-feather="file-text"></span></a></td>
@@ -86,7 +91,7 @@
                      <tr>
                         <td>{{ $tunjangan->created_at->isoFormat('D MMM Y') }}</td>
                         <td >{{ $tunjangan->kode }}</td>
-                        <td class="text-capitalize">Tunjangan {{ $tunjangan->jenis_tunjangan }}</td>
+                        <td class="text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</td>
                         <td>{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>
                         <td class="text-capitalize"><span class="badge text-bg-warning text-warning" style="--bs-bg-opacity: .2;">{{ $tunjangan->status }}</span></td>
                         <td><a href="/tunjangan/{{ $tunjangan->kode }}" class="badge text-bg-primary border-0"><span data-feather="file-text"></span></a></td>
@@ -124,7 +129,7 @@
                      <tr>
                         <td>{{ $tunjangan->created_at->isoFormat('D MMM Y') }}</td>
                         <td >{{ $tunjangan->kode }}</td>
-                        <td class="text-capitalize">Tunjangan {{ $tunjangan->jenis_tunjangan }}</td>
+                        <td class="text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</td>
                         <td>{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>
                         <td class="text-capitalize"><span class="badge text-bg-primary text-primary" style="--bs-bg-opacity: .3;">{{ $tunjangan->status }}</span></td>
                         <td><a href="/tunjangan/{{ $tunjangan->kode }}" class="badge text-bg-primary border-0"><span data-feather="file-text"></span></a></td>
@@ -157,5 +162,9 @@
     
 @endif
 
-
+<script>
+   $(document).on('change', function() {
+      $("#submit").removeAttr('disabled');
+   })
+</script>
 @endsection

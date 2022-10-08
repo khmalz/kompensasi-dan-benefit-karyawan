@@ -24,10 +24,10 @@
                <input type="hidden" class="form-control" name="status" value="belum" id="floatingInput" placeholder="belum" />
                <div class="form-floating mb-3">
                   <select class="form-select" name="jenis_tunjangan" id="floatingSelect" aria-label="Floating label select example">
-                    <option value="kesehatan">Kesehatan</option>
-                    <option value="pernikahan">Pernikahan</option>
-                    <option value="bencana">Bencana</option>
-                    <option value="kematian">Kematian</option>
+                    <option value="tunjangan_kesehatan">Kesehatan</option>
+                    <option value="tunjangan_pernikahan">Pernikahan</option>
+                    <option value="tunjangan_bencana">Bencana</option>
+                    <option value="tunjangan_kematian">Kematian</option>
                   </select>
                   <label for="floatingSelect">Jenis Tunjangan</label>
                 </div>

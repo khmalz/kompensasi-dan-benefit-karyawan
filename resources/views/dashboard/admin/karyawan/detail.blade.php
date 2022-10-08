@@ -55,7 +55,7 @@
       
       <div class="row ms-0 ms-md-2 mb-3 mt-3 mt-x;-0">
          <div class="col-xl-2 text-center">
-            <button class="btn btn-primary btn-sm">Riwayat Tunjangan</button>
+            <a href="/tunjangan?cari={{ $karyawan->nama }}" class="btn btn-primary btn-sm">Riwayat Tunjangan</a>
          </div>
       </div>
    </div>

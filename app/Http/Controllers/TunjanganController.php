@@ -13,10 +13,19 @@ class TunjanganController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('admin');
-        $tunjangans = Tunjangan::with('karyawan')->where('status', '!=', 'sudah')->get();
+        $pencarian = $request->cari;
+        $tanggal = $request->tanggal;
+        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('status', '!=', 'sudah')->get();
+
+        if ($pencarian && $tanggal) {
+            $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('status', '!=', 'sudah')->get();
+        } else if ($tanggal) {
+            $tunjangans = Tunjangan::with('karyawan')->where('created_at', 'like', "%$tanggal%")->where('status', '!=', 'sudah')->get();
+        }
+
         return view('dashboard.admin.tunjangan.index', compact('tunjangans'));
     }
 

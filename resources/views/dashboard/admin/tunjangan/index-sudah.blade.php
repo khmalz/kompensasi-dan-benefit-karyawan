@@ -1,8 +1,14 @@
 @extends('dashboard.layouts.main')
 
 @section('isi')
-<div class="d-flex justify-content-end flex-wrap flex-md-nowrap pb-2 mb-3">
-   <a href="{{ route('tunjangan.index') }}" class="btn btn-info text-light btn-sm">Belum / Sedang Diproses</a>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap pb-2 mb-3">
+   <form class="d-flex col-md-7" role="search" method="get">
+      <input id="cari" class="form-control form-control-sm me-2" type="search" name="cari" value="{{ request()->cari ?? "" }}" placeholder="Ketikkan Nama" aria-label="Pencarian">
+      <input id="tanggal" class="form-control form-control-sm me-2" type="date" name="tanggal" value="{{ request()->tanggal ?? "" }}" placeholder="Masukkan Tanggal" aria-label="Pencarian">
+      <button id="submit" class="btn btn-outline-success btn-sm w-25" disabled type="submit">Cari</button>
+      <a href="/tunjangan-sudah" class="btn btn-outline-danger btn-sm w-25 ms-2 {{ request()->cari || request()->tanggal ? "" : "disabled"}}">Reset</a>
+    </form>
+   <a href="{{ route('tunjangan.index', request()->cari || request()->tanggal ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal : "" ) }}" class="btn btn-info text-light btn-sm mt-md-0 mt-3">Belum / Sedang Diproses</a>
 </div>
 
 @if ($tunjangans->where('status', 'sudah')->isNotEmpty())
@@ -13,7 +19,7 @@
             <div class="row mx-1 my-3">
                <h4>Sudah Diproses</h4>
             </div>
-            <div class="row mx-2 table-responsive-md">
+            <div class="row mx-2 table-responsive-lg">
                <table class="table text-center">
                   <thead>
                     <tr>
@@ -34,7 +40,7 @@
                         <td >{{ $tunjangan->karyawan->nama }}</td>
                         <td>{{ $tunjangan->created_at->isoFormat('D MMM Y') }}</td>
                         <td >{{ $tunjangan->kode }}</td>
-                        <td class="text-capitalize">Tunjangan {{ $tunjangan->jenis_tunjangan }}</td>
+                        <td class="text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</td>
                         <td>{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>
                      @if ($tunjangan->status == 'sudah')
                         <td class="text-capitalize"><span class="badge text-bg-primary text-primary" style="--bs-bg-opacity: .3;">{{ $tunjangan->status }}</span></td>
@@ -68,4 +74,9 @@
    </div>
 @endif
 
+<script>
+   $(document).on('change', function() {
+      $("#submit").removeAttr('disabled');
+   })
+</script>
 @endsection

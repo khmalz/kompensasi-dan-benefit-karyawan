@@ -2,6 +2,10 @@
 
 @section('isi')
    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+      <form class="d-flex col-4" role="search" method="get">
+         <input class="form-control form-control-sm me-2" type="search" name="cari" value="{{ request()->cari ?? "" }}" placeholder="Ketikkan Nama" aria-label="Pencarian">
+         <button class="btn btn-outline-success btn-sm w-25" type="submit">Cari</button>
+       </form>
       <a href="{{ route('dashboardAdmin.create') }}" class="btn btn-success"><small>Tambahkan Data</small></a>
    </div>
 

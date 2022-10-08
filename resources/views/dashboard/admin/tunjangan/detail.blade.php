@@ -31,6 +31,8 @@
                <div class="modal-body">
                   <input type="hidden" name="kode" value="{{ $tunjangan->kode }}">
                   <input type="hidden" name="id" value="{{ $tunjangan->karyawan->user_id }}">
+                  <input type="hidden" name="jenis_tunjangan" value="{{ $tunjangan->jenis_tunjangan  }}">
+                  <input type="hidden" name="besar_tunjangan" value="{{ $tunjangan->besar_tunjangan  }}">
                   <div class="mb-3">
                      <label for="select" class="form-label">Status</label>
                      <select class="form-select" name="status" id="select" aria-label="Floating label select example">
@@ -83,7 +85,7 @@
                   <li class="list-group-item border-0 border-bottom">
                      <div class="d-sm-flex justify-content-between">
                         <p class="m-0 mb-1 mb-md-0 fw-bold">Jenis Tunjangan</p>
-                        <p class="m-0 text-capitalize">Tunjangan {{ $tunjangan->jenis_tunjangan }}</p>
+                        <p class="m-0 text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</p>
                      </div>
                   </li>
                   <li class="list-group-item border-0 border-bottom">
@@ -136,7 +138,7 @@
             <li class="list-group-item border-0 border-bottom">
                <div class="d-sm-flex justify-content-between">
                   <p class="m-0 mb-1 mb-md-0 fw-bold">Jenis Tunjangan</p>
-                  <p class="m-0 text-capitalize">Tunjangan {{ $tunjangan->jenis_tunjangan }}</p>
+                  <p class="m-0 text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</p>
                </div>
             </li>
             <li class="list-group-item border-0 border-bottom">

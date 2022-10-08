@@ -47,9 +47,20 @@ class TanggapanController extends Controller
             'pesan' => $request->pesan,
         ]);
 
-        Tunjangan::where('kode', $request->kode)->update([
+        $tunjangan =  Tunjangan::where('kode', $request->kode);
+
+        $tunjangan->update([
             'status' => $request->status,
         ]);
+
+        if ($tunjangan->first()->status == 'sudah') {
+            // Menggunakan versi nama_tunjangan dengan lengkap yakni ada kata (tunjangan_)
+
+            $karyawan = Karyawan::where('nik', $tunjangan->first()->karyawan_nik);
+            $karyawan->update([
+                "$request->jenis_tunjangan" => $karyawan->first()["$request->jenis_tunjangan"] - $request->besar_tunjangan
+            ]);
+        }
 
         Notification::send($user, new TunjanganNotification($request->kode, $request->status));
 

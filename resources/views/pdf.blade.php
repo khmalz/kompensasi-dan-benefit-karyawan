@@ -20,7 +20,7 @@
                <li class="list-group-item border-0 border-bottom mt-3">
                   <div class="d-sm-flex justify-content-between">
                      <p class="m-0 mb-1 mb-md-0 fw-bold">Jenis Tunjangan</p>
-                     <p class="m-0 text-capitalize">Tunjangan {{ $tunjangan->jenis_tunjangan }}</p>
+                     <p class="m-0 text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</p>
                   </div>
                </li>
                <li class="list-group-item border-0 border-bottom mt-2">
