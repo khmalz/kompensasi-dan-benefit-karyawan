@@ -87,16 +87,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Tunjangan::create([
-            'kode' => 'GA1JA6OWBM',
-            'karyawan_nik' => 'RTS20210711',
-            'jenis_tunjangan' => 'tunjangan_pernikahan',
-            'besar_tunjangan' => 1000000,
-            'status' => 'sudah',
-            'pesan' => 'Menikah',
-            'bukti' => '20221005092955.jpg'
-        ]);
-
-        Tunjangan::create([
             'kode' => 'J5N1ZF6BVE',
             'karyawan_nik' => 'RTS20210712',
             'jenis_tunjangan' => 'tunjangan_kesehatan',
@@ -112,16 +102,6 @@ class DatabaseSeeder extends Seeder
             'jenis_tunjangan' => 'tunjangan_bencana',
             'besar_tunjangan' => 1000000,
             'status' => 'sedang',
-            'pesan' => 'Untuk Memperbaiki Laptop',
-            'bukti' => '20221003031027.jpg'
-        ]);
-
-        Tunjangan::create([
-            'kode' => 'S52AV8LJ3J',
-            'karyawan_nik' => 'RTS20210712',
-            'jenis_tunjangan' => 'tunjangan_bencana',
-            'besar_tunjangan' => 1000000,
-            'status' => 'sudah',
             'pesan' => 'Untuk Memperbaiki Laptop',
             'bukti' => '20221003031027.jpg'
         ]);

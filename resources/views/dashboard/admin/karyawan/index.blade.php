@@ -1,12 +1,12 @@
 @extends('dashboard.layouts.main')
 
 @section('isi')
-   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
-      <form class="d-flex col-4" role="search" method="get">
+   <div class="d-md-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+      <a href="{{ route('dashboardAdmin.create') }}" class="btn btn-success order-last"><small>Tambahkan Data</small></a>
+      <form class="d-flex col-md-5 mt-md-0 mt-3" role="search" method="get">
          <input class="form-control form-control-sm me-2" type="search" name="cari" value="{{ request()->cari ?? "" }}" placeholder="Ketikkan Nama" aria-label="Pencarian">
          <button class="btn btn-outline-success btn-sm w-25" type="submit">Cari</button>
        </form>
-      <a href="{{ route('dashboardAdmin.create') }}" class="btn btn-success"><small>Tambahkan Data</small></a>
    </div>
 
    @if (session()->has('added'))
