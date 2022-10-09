@@ -14,6 +14,6 @@ class Tanggapan extends Model
 
     public function tunjangan()
     {
-        return $this->hasOne(Tunjangan::class, 'kode_tunjangan');
+        return $this->belongsTo(Tunjangan::class, 'kode_tunjangan');
     }
 }

@@ -122,6 +122,7 @@
             .card > .card-body > .card-title {
                font-size: 1.1rem !important;
             }
+
          }
       </style>
    </head>

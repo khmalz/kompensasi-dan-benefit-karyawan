@@ -20,7 +20,7 @@ class Tunjangan extends Model
 
     public function tanggapan()
     {
-        return $this->belongsTo(Tanggapan::class, 'kode_tunjangan');
+        return $this->hasOne(Tanggapan::class, 'kode_tunjangan');
     }
 
     public function getRouteKeyName()

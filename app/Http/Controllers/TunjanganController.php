@@ -56,8 +56,10 @@ class TunjanganController extends Controller
      * @param  \App\Models\Tunjangan  $tunjangan
      * @return \Illuminate\Http\Response
      */
+
     public function show(Tunjangan $tunjangan)
     {
+        // return $tunjangan->load('karyawan.user', 'tanggapan');
         return view('dashboard.admin.tunjangan.detail', compact('tunjangan'));
     }
 
