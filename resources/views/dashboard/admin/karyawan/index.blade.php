@@ -5,7 +5,8 @@
       <a href="{{ route('dashboardAdmin.create') }}" class="btn btn-success order-last"><small>Tambahkan Data</small></a>
       <form class="d-flex col-md-5 mt-md-0 mt-3" role="search" method="get">
          <input class="form-control form-control-sm me-2" type="search" name="cari" value="{{ request()->cari ?? "" }}" placeholder="Ketikkan Nama" aria-label="Pencarian">
-         <button class="btn btn-outline-success btn-sm w-25" type="submit">Cari</button>
+         <button id="submit" class="btn btn-outline-success btn-sm w-25" disabled type="submit">Cari</button>
+         <a href="/dashboardAdmin" class="btn btn-outline-danger btn-sm w-25 ms-2 {{ request()->cari ? "" : "disabled"}}">Reset</a>
        </form>
    </div>
 
@@ -94,4 +95,9 @@
    </div>
    @endif
    
+<script>
+   $(document).on('change', function() {
+      $("#submit").removeAttr('disabled');
+   })
+</script>
 @endsection

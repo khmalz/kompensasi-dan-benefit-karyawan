@@ -11,6 +11,7 @@ use App\Http\Controllers\TanggapanController;
 use App\Http\Controllers\TunjanganController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardKaryawanController;
+use App\Http\Controllers\PasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +69,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::post('/tunjangan/pdf/{tunjangan}', [TunjanganController::class, 'pdf']);
     Route::resource('/tunjangan', TunjanganController::class)->except('pdf');
+
+    Route::patch('ganti-password', [PasswordController::class, 'update'])->name('ganti-password');
 });
 
 Route::middleware(['auth', 'karyawan'])->group(function () {

@@ -4,10 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Karyawan;
-use App\Models\Tanggapan;
 use App\Models\Tunjangan;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,21 +22,21 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => Hash::make('password')
+            'password' => bcrypt('password')
         ]);
 
         // ID 2
         User::create([
             'name' => 'AH',
             'email' => 'ah@gmail.com',
-            'password' => Hash::make('password')
+            'password' => bcrypt('passwordah')
         ]);
 
         // ID 3
         User::create([
             'name' => 'RM',
             'email' => 'rm@gmail.com',
-            'password' => Hash::make('password')
+            'password' => bcrypt('passwordrm')
         ]);
 
         Karyawan::create([
@@ -48,10 +46,6 @@ class DatabaseSeeder extends Seeder
             'status' => 'Permanen',
             'lokasi' => 'Jakarta',
             'tanggal_masuk' => '2021-06-01',
-            'tunjangan_kesehatan' => 5000000,
-            'tunjangan_pernikahan' => 2500000,
-            'tunjangan_bencana' => 5000000,
-            'tunjangan_kematian' => 10000000,
         ]);
 
         Karyawan::create([
@@ -61,10 +55,6 @@ class DatabaseSeeder extends Seeder
             'status' => 'Permanen',
             'lokasi' => 'Jakarta',
             'tanggal_masuk' => '2018-02-24',
-            'tunjangan_kesehatan' => 5000000,
-            'tunjangan_pernikahan' => 2500000,
-            'tunjangan_bencana' => 5000000,
-            'tunjangan_kematian' => 10000000,
         ]);
 
         Tunjangan::create([

@@ -129,6 +129,9 @@
                <div class="col text-center py-4">
                   <h1 class="display-2 fw-semibold">404</h1>
                   <p class="fs-5">Permintaan Tunjangan <span class="text-danger">Tidak Ditemukan</span></p>
+                  @if (request('cari'))
+                  <p class="fs-6">Mungkin Tunjangan Sudah Diproses &raquo;  <a href="/tunjangan-sudah?{{ request()->cari || request()->tanggal ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal : "" }}" class="text-dark">Klik Untuk Melihat</a></p>
+                  @endif
                </div>
             </div>
          </div>

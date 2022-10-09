@@ -42,10 +42,16 @@ class TanggapanController extends Controller
     {
         $user = User::find($request->id);
 
-        Tanggapan::create([
-            'kode_tunjangan' => $request->kode,
-            'pesan' => $request->pesan,
-        ]);
+        if (empty(Tanggapan::where('kode_tunjangan', $request->kode)->first())) {
+            Tanggapan::create([
+                'kode_tunjangan' => $request->kode,
+                'pesan' => $request->pesan,
+            ]);
+        } else {
+            Tanggapan::where('kode_tunjangan', $request->kode)->update([
+                'pesan' => $request->pesan,
+            ]);
+        }
 
         $tunjangan =  Tunjangan::where('kode', $request->kode);
 

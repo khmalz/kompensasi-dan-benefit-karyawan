@@ -122,7 +122,16 @@
             .card > .card-body > .card-title {
                font-size: 1.1rem !important;
             }
+         }
 
+         input::-webkit-outer-spin-button,
+         input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+         }
+
+         input[type=number] {
+            -moz-appearance: textfield;
          }
       </style>
    </head>

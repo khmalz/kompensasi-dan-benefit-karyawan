@@ -17,7 +17,7 @@ class DashboardAdminController extends Controller
     public function index()
     {
         $pencarian = request()->cari;
-        $karyawans = Karyawan::where('nama', 'like', "%$pencarian%")->oldest()->get();
+        $karyawans = Karyawan::where('nama', 'like', "%$pencarian%")->orderBy('user_id', 'asc')->get();
         return view('dashboard.admin.karyawan.index', compact('karyawans'));
     }
 
