@@ -58,64 +58,6 @@
    @endcan
 </div>
 
-{{--
-<div class="row mx-auto">
-   <div class="col-lg-4">
-      <div class="card mb-3 border-0 py-4">
-         <div class="row ms-0 ms-md-2 align-items-center justify-content-center">
-            <div class="col-6 col-md-5">
-               <img src="{{ asset('images/Anon Bussines.png') }}" class="img-fluid rounded-pill mb-2" alt="Bussines Man" />
-               <h4 class="text-center fw-bold mb-0">{{ $tunjangan->karyawan->nama }}</h4>
-               <small>
-                  <p class="text-center text-secondary mb-1">{{ $tunjangan->karyawan->user->email }}</p>
-               </small>
-               <p class="text-center">{{ $tunjangan->karyawan->nik }}</p>
-            </div>
-         </div>
-      </div>
-   </div>
-   <div class="col-lg-8">
-      <div class="card mb-3 border-0">
-         <div class="row ms-0 ms-md-2 pb-4">
-            <div class="col">
-               <ul class="list-group py-2 me-4 tunjangan-details">
-                  <li class="list-group-item border-0 border-bottom"><p class="h5">Tunjangan Details</p></li>
-                  <li class="list-group-item border-0 border-bottom">
-                     <div class="d-sm-flex justify-content-between">
-                        <p class="m-0 mb-1 mb-md-0 fw-bold">Jenis Tunjangan</p>
-                        <p class="m-0 text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</p>
-                     </div>
-                  </li>
-                  <li class="list-group-item border-0 border-bottom">
-                     <div class="d-sm-flex justify-content-between">
-                        <p class="m-0 mb-1 mb-md-0 fw-bold">Status</p>
-                        @if ($tunjangan->status == 'sudah')
-                        <p class="m-0 text-capitalize text-primary">{{ $tunjangan->status }} Diproses</p>
-                        @elseif($tunjangan->status == 'sedang')
-                        <p class="m-0 text-capitalize text-warning">{{ $tunjangan->status }} Diproses</p>
-                        @else
-                        <p class="m-0 text-capitalize text-danger">{{ $tunjangan->status }} Diproses</p>
-                        @endif
-                     </div>
-                  </li>
-                  <li class="list-group-item border-0 border-bottom">
-                     <div class="d-sm-flex justify-content-between">
-                        <p class="m-0 mb-1 mb-md-0 fw-bold">Besar Tunjangan</p>
-                        <p class="m-0 text-capitalize">{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</p>
-                     </div>
-                  </li>
-                  <li class="list-group-item border-0 border-bottom">
-                     <p class="m-0 mb-1 fw-bold">Pesan</p>
-                     <p class="m-0">{{ $tunjangan->pesan }}</p>
-                  </li>
-               </ul>
-            </div>
-         </div>
-      </div>
-   </div>
-</div>
---}}
-
 <div class="card mb-3 border-0 shadow-sm rounded-3">
    <div class="row ms-0 ms-md-2 align-items-center justify-content-center justify-content-md-between">
       <div class="col-6 col-md-2">
@@ -161,8 +103,21 @@
             <li class="list-group-item border-0 border-bottom">
                <div class="d-sm-flex justify-content-between">
                   <p class="m-0 mb-1 mb-md-0 fw-bold">Besar Tunjangan</p>
+               @if ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] < $tunjangan->besar_tunjangan)
+                  <p class="m-0 text-capitalize text-danger">Rp {{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</p>
+               </div>
+               <small><span class="d-md-flex justify-content-end text-danger">Permintaan Tunjangan Lebih Besar dari Yang Tersedia, 
+                  <form action="{{ route('tunjangan.destroy', $tunjangan->kode) }}" method="post" class="d-inline">
+                     @method('delete')
+                     @csrf
+                     {{-- <button onclick="return confirm('Apakah Yakin?')" type="submit" class="badge text-bg-danger border-0"><span data-feather="trash"></span></button> --}}
+                     <a href="#" id="hapusPermintaan" class="text-danger">Hapus Permintaan?</a>
+                  </form>
+                  </span></small>
+               @else
                   <p class="m-0 text-capitalize">Rp {{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</p>
                </div>
+               @endif
             </li>
             <li class="list-group-item border-0 border-bottom">
                <p class="m-0 mb-1 fw-bold">Pesan</p>
@@ -203,6 +158,13 @@
 </div>
 
 <script>
+   $("#hapusPermintaan").on('click', function() {
+      let tanya = confirm("Apakah Yakin ?")
+      if (tanya) {
+         $(this).closest('form').submit()
+      }
+   })
+   
    $(".pdf-button").on("click", function () {
       var form = $(this).closest("form");
       Swal.fire({

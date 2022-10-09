@@ -69,6 +69,7 @@
             <div class="row mx-auto my-3">
                <h3>Tunjangan</h3>
             </div>
+            <p id="nik" hidden>{{ auth()->user()->karyawan->nik }}</p>
             <div class="row mx-auto px-5 w-100 py-5">
                <form action="{{ route('dashboardKaryawan.store') }}" method="post"  enctype="multipart/form-data">
                   @csrf
@@ -77,10 +78,11 @@
                   <input type="hidden" class="form-control" name="status" value="belum" id="floatingInput" placeholder="belum" />
                   <div class="form-floating mb-3">
                      <select class="form-select" name="jenis_tunjangan" id="floatingSelect" aria-label="Floating label select example">
-                     <option value="tunjangan_kesehatan">Kesehatan</option>
-                     <option value="tunjangan_pernikahan">Pernikahan</option>
-                     <option value="tunjangan_bencana">Bencana</option>
-                     <option value="tunjangan_kematian">Kematian</option>
+                        <option selected disabled>Pilih Jenis Tunjangan</option>
+                        <option value="tunjangan_kesehatan">Kesehatan</option>
+                        <option value="tunjangan_pernikahan">Pernikahan</option>
+                        <option value="tunjangan_bencana">Bencana</option>
+                        <option value="tunjangan_kematian">Kematian</option>
                      </select>
                      <label for="floatingSelect">Jenis Tunjangan</label>
                   </div>
@@ -88,6 +90,7 @@
                      <input type="number" class="form-control" name="besar_tunjangan" id="floatingInput" placeholder="name@example.com" />
                      <label for="floatingInput">Besar Tunjangan</label>
                   </div>
+                  <div class="my-2 mb-3" id="wadah"></div>
                   <div class="form-floating mb-3">
                      <textarea class="form-control h-25" name="pesan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                      <label for="floatingTextarea">Pesan</label>
@@ -122,6 +125,35 @@
       setTimeout(() => {
          $("#password_berhasil").attr('hidden', true);
       }, 2000);
+   }
+
+   $(document).ready(function() {
+      let data = ""
+      $("#floatingSelect").on('change', function () {
+            data = $("#floatingSelect").val()
+            $.ajax({
+               type: "GET",
+               url: "/karyawan/" + $("#nik").text(),
+               dataType: "json",
+               success: function (res) {
+                  $("#wadah").html("")
+                  var isi = 'Sisa Tunjangan Kamu <span class="text-primary" id="pemberitahuan"></span>'
+                  $("#wadah").html(isi)
+                  $("#pemberitahuan").html("")
+                  $("#pemberitahuan").text(convertRupiah(res[data]))
+               },
+               error: function (err) {
+                  console.log(err);
+               },
+            });
+         })
+   })
+
+   function convertRupiah(angka) {
+      var reverse = angka.toString().split('').reverse().join(''),
+      ribuan 	= reverse.match(/\d{1,3}/g);
+      ribuan	= ribuan.join('.').split('').reverse().join('');
+      return ribuan;
    }
 </script>
 

@@ -62,14 +62,18 @@
             @foreach (auth()->user()->notifications as $notification)
                @if (is_null($notification->read_at))
                <div class="row g-0 mb-0 my-1">
-                  <div class="alert bg-success border-bottom mb-0 border-2 d-flex align-items-center justify-content-between" style="--bs-bg-opacity: 0.12;" role="alert">
+                  <div class="alert {{ $notification->data['status'] == 'sedang' || $notification->data['status'] == 'sudah' ? "bg-success" : "bg-danger" }} border-bottom mb-0 border-2 d-flex align-items-center justify-content-between" style="--bs-bg-opacity: 0.12;" role="alert">
                      <div>
                         @if ($notification->data['status'] == 'sedang')
-                        <span>Tunjangan dengan kode <span class="fw-semibold">{{ $notification->data['kode'] }}</span> sedang dalam proses</span>
-                        @else
-                        <span>Tunjangan dengan kode <span class="fw-semibold">{{ $notification->data['kode'] }}</span> sudah selesai diproses</span>
-                        @endif
+                        <span>Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> sedang dalam proses</span>
                         <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark text-decoration-none fw-semibold">Lihat Selengkapnya</a> 
+                        @elseif ($notification->data['status'] == 'sudah')
+                        <span>Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> sudah selesai diproses</span>
+                        <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark text-decoration-none fw-semibold">Lihat Selengkapnya</a> 
+                        @else
+                        <span>Permintaan Tunjangan dengan kode {{ $notification->data['kode'] }} Dihapus oleh Admin karena <strong>Melebihi</strong> dari Tunjangan Yang Tersedia</span>
+                        @endif
+
                         @if ($notification->created_at > now()->subHours(24))  {{-- sehari yang lalu --}}
                         <small><span class="text-secondary d-block mb-1">Hari ini pada {{ $notification->created_at->format('H:i') }} | {{ $notification->created_at->diffForHumans() }}</span></small>
                         @else
@@ -84,10 +88,13 @@
                      <div>
                         @if ($notification->data['status'] == 'sedang')
                         <span>Tunjangan dengan kode <span class="fw-semibold">{{ $notification->data['kode'] }}</span> sedang dalam proses</span>
-                        @else
-                        <span>Tunjangan dengan kode <span class="fw-semibold">{{ $notification->data['kode'] }}</span> sudah selesai diproses</span>
-                        @endif
                         <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark text-decoration-none fw-semibold">Lihat Selengkapnya</a> 
+                        @elseif ($notification->data['status'] == 'sudah')
+                        <span>Tunjangan dengan kode <span class="fw-semibold">{{ $notification->data['kode'] }}</span> sudah selesai diproses</span>
+                        <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark text-decoration-none fw-semibold">Lihat Selengkapnya</a> 
+                        @else
+                        <span>Permintaan Tunjangan dengan kode {{ $notification->data['kode'] }} Dihapus oleh Admin karena <strong>Melebihi</strong> dari Tunjangan Yang Tersedia</span>
+                        @endif
                         @if ($notification->created_at > now()->subHours(24))  {{-- sehari yang lalu --}}
                         <small><span class="text-secondary d-block mb-1">Hari ini pada {{ $notification->created_at->format('H:i') }} | {{ $notification->created_at->diffForHumans() }}</span></small>
                         @else

@@ -36,6 +36,10 @@ Route::get('/', function () {
     // return DB::table('users')->rightJoin('karyawans', 'karyawans.user_id', 'users.id')->get();
 });
 
+Route::get('karyawan/{karyawan:nik}', function (Karyawan $karyawan) {
+    return $karyawan->load('user');
+});
+
 Route::get('/login', [LoginController::class, 'index'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -53,12 +57,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/tunjangan-sudah', function () {
         $pencarian = request()->cari;
         $tanggal = request()->tanggal;
-        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('status', 'sudah')->get();
+        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('status', 'sudah')->latest()->get();
 
         if ($pencarian && $tanggal) {
-            $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('status', 'sudah')->get();
+            $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('status', 'sudah')->latest()->get();
         } else if ($tanggal) {
-            $tunjangans = Tunjangan::with('karyawan')->where('created_at', 'like', "%$tanggal%")->where('status', 'sudah')->get();
+            $tunjangans = Tunjangan::with('karyawan')->where('created_at', 'like', "%$tanggal%")->where('status', 'sudah')->latest()->get();
         }
 
         return view('dashboard.admin.tunjangan.index-sudah', compact('tunjangans'));
@@ -78,10 +82,10 @@ Route::middleware(['auth', 'karyawan'])->group(function () {
 
     Route::get('/riwayat-tunjangan', function () {
         $tanggal = request()->tanggal;
-        $tunjangans = Tunjangan::where('karyawan_nik', auth()->user()->karyawan->nik)->get();
+        $tunjangans = Tunjangan::where('karyawan_nik', auth()->user()->karyawan->nik)->latest()->get();
 
         if ($tanggal) {
-            $tunjangans = Tunjangan::where('created_at', 'like', "%$tanggal%")->where('karyawan_nik', auth()->user()->karyawan->nik)->get();
+            $tunjangans = Tunjangan::where('created_at', 'like', "%$tanggal%")->where('karyawan_nik', auth()->user()->karyawan->nik)->latest()->get();
         }
         return view('dashboard.karyawan.riwayat', compact('tunjangans'));
     });

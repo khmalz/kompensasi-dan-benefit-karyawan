@@ -42,6 +42,14 @@ class TanggapanController extends Controller
     {
         $user = User::find($request->id);
 
+        $tunjangan =  Tunjangan::where('kode', $request->kode);
+        $karyawan = Karyawan::where('nik', $tunjangan->first()->karyawan_nik);
+        $sisaTunjangan = $karyawan->first()["$request->jenis_tunjangan"] - $request->besar_tunjangan;
+
+        if ($sisaTunjangan < 0) {
+            return back();
+        }
+
         if (empty(Tanggapan::where('kode_tunjangan', $request->kode)->first())) {
             Tanggapan::create([
                 'kode_tunjangan' => $request->kode,
@@ -52,8 +60,6 @@ class TanggapanController extends Controller
                 'pesan' => $request->pesan,
             ]);
         }
-
-        $tunjangan =  Tunjangan::where('kode', $request->kode);
 
         $tunjangan->update([
             'status' => $request->status,

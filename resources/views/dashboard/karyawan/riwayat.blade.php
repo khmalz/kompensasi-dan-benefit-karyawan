@@ -9,16 +9,18 @@
 
 @foreach (auth()->user()->unreadnotifications as $notification)
 <div class="row g-0 mb-4">
-   <div class="alert alert-success d-md-flex align-items-center justify-content-between" role="alert">
+   <div class="alert {{ $notification->data['status'] == 'sedang' || $notification->data['status'] == 'sudah' ? "alert-success" : "alert-danger" }} d-md-flex align-items-center justify-content-between" role="alert">
       <div>
          @if ($notification->data['status'] == 'sedang')
          <span>Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> sedang dalam proses</span>
-         @else
+         @elseif ($notification->data['status'] == 'sudah')
          <span>Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> sudah selesai diproses</span>
+         @else
+         <span>Permintaan Tunjangan dengan kode {{ $notification->data['kode'] }} <strong>Melebihi</strong> Dari Tunjangan Yang Tersedia</span>
          @endif
-         <span class="text-secondary d-block mb-1 mb-md-0">{{ $notification->created_at->isoFormat('D MMMM, Y') }} pada {{ $notification->created_at->format('H:i') }} | {{ $notification->created_at->diffForHumans() }}</span>
+         <span class="{{ $notification->data['status'] == 'sedang' || $notification->data['status'] == 'sudah' ? "text-secondary" : "text-danger" }} d-block mb-1 mb-md-0">{{ $notification->created_at->isoFormat('D MMMM, Y') }} pada {{ $notification->created_at->format('H:i') }} | {{ $notification->created_at->diffForHumans() }}</span>
       </div>
-      <a class="text-success" href="/dibaca/{{ $notification->id }}">Tandai Dibaca</a>
+      <a class="{{ $notification->data['status'] == 'sedang' || $notification->data['status'] == 'sudah' ? "text-success" : "text-danger" }}" href="/dibaca/{{ $notification->id }}">Tandai Dibaca</a>
     </div>
 </div>
 @endforeach
