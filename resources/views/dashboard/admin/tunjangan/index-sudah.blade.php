@@ -8,7 +8,7 @@
       <button id="submit" class="btn btn-outline-success btn-sm w-25" disabled type="submit">Cari</button>
       <a href="/tunjangan-sudah" class="btn btn-outline-danger btn-sm w-25 ms-2 {{ request()->cari || request()->tanggal ? "" : "disabled"}}">Reset</a>
     </form>
-   <a href="{{ route('tunjangan.index', request()->cari || request()->tanggal ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal : "" ) }}" class="btn btn-info text-light btn-sm mt-md-0 mt-3">Belum / Sedang Diproses</a>
+   <a href="{{ route('tunjangan.index', request()->cari || request()->tanggal ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal : "" ) }}" class="btn btn-warning text-light btn-sm mt-md-0 mt-3">Belum / Sedang Diproses</a>
 </div>
 
 @if ($tunjangans->where('status', 'sudah')->isNotEmpty())

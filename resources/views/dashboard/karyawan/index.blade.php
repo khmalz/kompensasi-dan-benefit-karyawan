@@ -35,7 +35,7 @@
                @csrf
                @method('PATCH')
                <div class="form-floating @error('old_password') is-invalid @enderror">
-                  <input type="password" class="form-control @error('old_password') is-invalid @enderror" name="old_password" id="floatingInput" placeholder="password" />
+                  <input type="password" class="form-control @error('old_password') is-invalid @enderror" name="old_password" id="floatingInput" placeholder="password" required/>
                   <label for="floatingInput">Password Lama</label>
                </div>
                @error('old_password')
@@ -44,7 +44,7 @@
                </div>
                @enderror
                <div class="form-floating mt-3 @error('password') is-invalid @enderror">
-                  <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="floatingInput" placeholder="password" />
+                  <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="floatingInput" placeholder="password" required/>
                   <label for="floatingInput">Password</label>
                </div>
                @error('password')
@@ -53,7 +53,7 @@
                </div>
                @enderror
                <div class="form-floating mt-3">
-                  <input type="password" class="form-control" name="password_confirmation" id="floatingInput" placeholder="password" />
+                  <input type="password" class="form-control" name="password_confirmation" id="floatingInput" placeholder="password" required/>
                   <label for="floatingInput">Konfirmasi Password</label>
                </div>
                <button type="submit" class="btn btn-success mt-3">Kirim</button>
@@ -77,7 +77,7 @@
                   <input type="hidden" class="form-control" name="karyawan_nik" value="{{ auth()->user()->karyawan->nik }}" id="floatingInput" placeholder="nik.com" />
                   <input type="hidden" class="form-control" name="status" value="belum" id="floatingInput" placeholder="belum" />
                   <div class="form-floating mb-3">
-                     <select class="form-select" name="jenis_tunjangan" id="floatingSelect" aria-label="Floating label select example">
+                     <select class="form-select" name="jenis_tunjangan" id="floatingSelect" aria-label="Floating label select example" required>
                         <option selected disabled>Pilih Jenis Tunjangan</option>
                         <option value="tunjangan_kesehatan">Kesehatan</option>
                         <option value="tunjangan_pernikahan">Pernikahan</option>
@@ -87,18 +87,18 @@
                      <label for="floatingSelect">Jenis Tunjangan</label>
                   </div>
                   <div class="form-floating mb-3">
-                     <input type="number" class="form-control" name="besar_tunjangan" id="floatingInput" placeholder="name@example.com" />
+                     <input type="number" class="form-control" name="besar_tunjangan" id="floatingInput" placeholder="name@example.com" required/>
                      <label for="floatingInput">Besar Tunjangan</label>
                   </div>
                   <div class="my-2 mb-3" id="wadah"></div>
                   <div class="form-floating mb-3">
-                     <textarea class="form-control h-25" name="pesan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                     <textarea class="form-control h-25" name="pesan" placeholder="Leave a comment here" id="floatingTextarea" required></textarea>
                      <label for="floatingTextarea">Pesan</label>
                   </div>
                   <div class="mb-3">
                      {{-- <small><label for="formFile" class="form-label">Bukti Foto</label></small> --}}
                      <img class="img-preview img-fluid d-none rounded col-sm-5">
-                     <input class="form-control" name="bukti" type="file" id="bukti" onchange="previewImage()">
+                     <input class="form-control" name="bukti" type="file" id="bukti" onchange="previewImage()" required>
                   </div>
                   <button type="submit" class="btn btn-success mt-2">Kirim</button>
                </form>

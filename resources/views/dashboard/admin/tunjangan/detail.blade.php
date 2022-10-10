@@ -32,14 +32,14 @@
                   <input type="hidden" name="besar_tunjangan" value="{{ $tunjangan->besar_tunjangan  }}" />
                   <div class="mb-3">
                      <label for="select" class="form-label">Status</label>
-                     <select class="form-select" name="status" id="select" aria-label="Floating label select example">
+                     <select class="form-select" name="status" id="select" aria-label="Floating label select example" required>
                         <option value="sedang">Sedang Diproses</option>
                         <option value="sudah">Sudah Diproses</option>
                      </select>
                   </div>
                   <div class="mb-3">
                      <label for="pesan" class="form-label">Pesan</label>
-                     <textarea class="form-control" name="pesan" id="pesan" rows="2"></textarea>
+                     <textarea class="form-control" name="pesan" id="pesan" rows="2" required></textarea>
                   </div>
                </div>
                <div class="modal-footer">
