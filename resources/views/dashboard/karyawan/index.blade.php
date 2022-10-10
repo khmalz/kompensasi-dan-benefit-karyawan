@@ -69,36 +69,55 @@
             <div class="row mx-auto my-3">
                <h3>Tunjangan</h3>
             </div>
-            <p id="nik" hidden>{{ auth()->user()->karyawan->nik }}</p>
             <div class="row mx-auto px-5 w-100 py-5">
                <form action="{{ route('dashboardKaryawan.store') }}" method="post"  enctype="multipart/form-data">
                   @csrf
+                  {{-- <p id="nik" name="nik" hidden>{{ auth()->user()->karyawan->nik }}</p> --}}
                   <input type="hidden" class="form-control" name="kode" value="" id="floatingInput" placeholder="nik.com" />
-                  <input type="hidden" class="form-control" name="karyawan_nik" value="{{ auth()->user()->karyawan->nik }}" id="floatingInput" placeholder="nik.com" />
+                  <input type="hidden" class="form-control" id="karyawan_nik" name="karyawan_nik" value="{{ auth()->user()->karyawan->nik }}" id="floatingInput" placeholder="nik.com" />
                   <input type="hidden" class="form-control" name="status" value="belum" id="floatingInput" placeholder="belum" />
                   <div class="form-floating mb-3">
-                     <select class="form-select" name="jenis_tunjangan" id="floatingSelect" aria-label="Floating label select example" required>
+                     <select class="form-select @error('jenis_tunjangan') is-invalid @enderror" name="jenis_tunjangan" id="floatingSelect" aria-label="Floating label select example" required>
                         <option selected disabled>Pilih Jenis Tunjangan</option>
-                        <option value="tunjangan_kesehatan">Kesehatan</option>
-                        <option value="tunjangan_pernikahan">Pernikahan</option>
-                        <option value="tunjangan_bencana">Bencana</option>
-                        <option value="tunjangan_kematian">Kematian</option>
+                        <option {{ old('jenis_tunjangan') == 'tunjangan_kesehatan' ? 'selected' : '' }} value="tunjangan_kesehatan">Kesehatan</option>
+                        <option {{ old('jenis_tunjangan') == 'tunjangan_pernikahan' ? 'selected' : '' }} value="tunjangan_pernikahan">Pernikahan</option>
+                        <option {{ old('jenis_tunjangan') == 'tunjangan_bencana' ? 'selected' : '' }} value="tunjangan_bencana">Bencana</option>
+                        <option {{ old('jenis_tunjangan') == 'tunjangan_kematian' ? 'selected' : '' }} value="tunjangan_kematian">Kematian</option>
                      </select>
                      <label for="floatingSelect">Jenis Tunjangan</label>
+                     @error('jenis_tunjangan')
+                     <div class="invalid-feedback mt-2">
+                        {{ $message }}
+                     </div>
+                     @enderror
                   </div>
                   <div class="form-floating mb-3">
-                     <input type="number" class="form-control" name="besar_tunjangan" id="floatingInput" placeholder="name@example.com" required/>
+                     <input type="number" value="{{ old('besar_tunjangan') }}" class="form-control @error('besar_tunjangan') is-invalid @enderror" name="besar_tunjangan" id="floatingInput" placeholder="name@example.com"/>
                      <label for="floatingInput">Besar Tunjangan</label>
+                     @error('besar_tunjangan')
+                     <div class="invalid-feedback mt-2">
+                        {{ $message }}
+                     </div>
+                     @enderror
                   </div>
                   <div class="my-2 mb-3" id="wadah"></div>
                   <div class="form-floating mb-3">
-                     <textarea class="form-control h-25" name="pesan" placeholder="Leave a comment here" id="floatingTextarea" required></textarea>
+                     <textarea class="form-control h-25 @error('pesan') is-invalid @enderror" name="pesan" placeholder="Leave a comment here" id="floatingTextarea">{{ old('pesan') }}</textarea>
                      <label for="floatingTextarea">Pesan</label>
+                     @error('pesan')
+                     <div class="invalid-feedback mt-2">
+                        {{ $message }}
+                     </div>
+                     @enderror
                   </div>
                   <div class="mb-3">
-                     {{-- <small><label for="formFile" class="form-label">Bukti Foto</label></small> --}}
                      <img class="img-preview img-fluid d-none rounded col-sm-5">
-                     <input class="form-control" name="bukti" type="file" id="bukti" onchange="previewImage()" required>
+                     <input class="form-control @error('bukti') is-invalid @enderror" name="bukti" type="file" id="bukti" onchange="previewImage()">
+                     @error('bukti')
+                     <div class="invalid-feedback mt-2">
+                        {{ $message }}
+                     </div>
+                     @enderror
                   </div>
                   <button type="submit" class="btn btn-success mt-2">Kirim</button>
                </form>
@@ -133,7 +152,7 @@
             data = $("#floatingSelect").val()
             $.ajax({
                type: "GET",
-               url: "/karyawan/" + $("#nik").text(),
+               url: "/karyawan/" + $("#karyawan_nik").val(),
                dataType: "json",
                success: function (res) {
                   $("#wadah").html("")

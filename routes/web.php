@@ -36,10 +36,6 @@ Route::get('/', function () {
     // return DB::table('users')->rightJoin('karyawans', 'karyawans.user_id', 'users.id')->get();
 });
 
-Route::get('karyawan/{karyawan:nik}', function (Karyawan $karyawan) {
-    return $karyawan->load('user');
-});
-
 Route::get('/login', [LoginController::class, 'index'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -47,7 +43,6 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware(['auth', 'admin'])->group(function () {
     // Halaman Data Karyawan
     Route::resource('/dashboardAdmin', DashboardAdminController::class)->except('show', 'edit', 'update', 'destroy');
-
     Route::get('/dashboardAdmin/{karyawan}', [DashboardAdminController::class, 'show']);
     Route::get('/dashboardAdmin/{karyawan}/edit', [DashboardAdminController::class, 'edit']);
     Route::put('dashboardAdmin/{karyawan}', [DashboardAdminController::class, 'update']);
@@ -57,6 +52,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/tunjangan-sudah', function () {
         $pencarian = request()->cari;
         $tanggal = request()->tanggal;
+
         $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('status', 'sudah')->latest()->get();
 
         if ($pencarian && $tanggal) {
@@ -75,6 +71,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/tunjangan', TunjanganController::class)->except('pdf');
 
     Route::patch('ganti-password', [PasswordController::class, 'update'])->name('ganti-password');
+
+    Route::get('karyawan/{karyawan}', function (Karyawan $karyawan) {
+        return $karyawan->load('user');
+    });
 });
 
 Route::middleware(['auth', 'karyawan'])->group(function () {

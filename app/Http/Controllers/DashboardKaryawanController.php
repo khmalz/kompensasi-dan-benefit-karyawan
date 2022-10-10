@@ -37,6 +37,20 @@ class DashboardKaryawanController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'jenis_tunjangan' => 'required',
+        ]);
+
+        $karyawan = Karyawan::where('nik', $request->karyawan_nik)->value($request->jenis_tunjangan);
+
+        $request->validate([
+            'besar_tunjangan' => 'required|lte:' . $karyawan,
+            'pesan' => 'required',
+            'bukti' => 'required|image|file'
+        ]);
+
+        return redirect('/riwayat-tunjangan');
+
         // $request['kode'] = $this->genKodeTunjangan();
         do {
             $chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
