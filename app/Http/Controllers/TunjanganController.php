@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Tunjangan;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\File;
 use App\Notifications\TunjanganNotification;
 use Illuminate\Support\Facades\Notification;
 
@@ -99,6 +100,7 @@ class TunjanganController extends Controller
     {
         Tunjangan::destroy($tunjangan->kode);
         $user = User::find($tunjangan->karyawan->user_id);
+        File::delete(public_path("images/$tunjangan->bukti"));
 
         Notification::send($user, new TunjanganNotification($tunjangan->kode, "kelebihan"));
 

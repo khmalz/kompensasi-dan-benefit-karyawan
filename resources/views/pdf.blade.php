@@ -9,12 +9,10 @@
 </head>
 <body>
    <div class="container">
-      <nav aria-label="breadcrumb">
-         <p>Tunjangan / Kode : #{{ $tunjangan->kode }}</p>
-       </nav>
+      <p>Tunjangan / Kode : #{{ $tunjangan->kode }}</p>
 
-       <div class="row mt-1 justify-content-between">
-         <div class="col-7">
+       <div class="row justify-content-between">
+         <div class="col">
             <ul class="list-group tunjangan-details">
                <li class="list-group-item border-0 border-bottom"><p class="h5">Tunjangan Details</p></li>
                <li class="list-group-item border-0 border-bottom mt-3">
@@ -38,7 +36,7 @@
                <li class="list-group-item border-0 border-bottom mt-2">
                   <div class="d-sm-flex justify-content-between">
                      <p class="m-0 mb-1 mb-md-0 fw-bold">Tanggal</p>
-                     <p class="m-0 text-capitalize">{{ $tunjangan->created_at->format('d-m-Y')}}</p>
+                     <p class="m-0 text-capitalize">{{ $tunjangan->created_at->isoFormat('DD-MMMM-Y')}}</p>
                   </div>
                </li>
                <li class="list-group-item border-0 border-bottom mt-2">
@@ -53,9 +51,9 @@
                </li>
             </ul>
          </div>
-         <div class="col-4">
+         <div class="col">
             <div class="card border-0">
-               <img src="{{ asset("images/bukti/$tunjangan->bukti") }}" class="card-img-top p-2 mt-2 rounded-4" style="border-radius: 10px; height: 40vh !important">
+               <img src="{{ asset("images/$tunjangan->bukti") }}" class="card-img-top p-2 mt-2 rounded-4" style="border-radius: 10px; width: 500px">
             </div>
          </div>
        </div>

@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
             'besar_tunjangan' => 150000,
             'status' => 'belum',
             'pesan' => 'Untuk Mengobati Flu',
-            'bukti' => '20221003031157.jpeg',
+            'bukti' => 'bukti/20221003031157.jpeg',
             'created_at' => "2022-10-08" . now()->format('H:i:s'),
             'updated_at' => "2022-10-08" . now()->format('H:i:s'),
         ]);
@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder
             'besar_tunjangan' => 2000000,
             'status' => 'belum',
             'pesan' => 'Menikah',
-            'bukti' => '20221005092955.jpg',
+            'bukti' => 'bukti/20221005092955.jpg',
             'created_at' => "2022-10-06" . now()->format('H:i:s'),
             'updated_at' => "2022-10-06" . now()->format('H:i:s'),
         ]);
@@ -88,7 +88,7 @@ class DatabaseSeeder extends Seeder
             'besar_tunjangan' => 100000,
             'status' => 'belum',
             'pesan' => 'Untuk Berobat',
-            'bukti' => '20221003030840.jpg'
+            'bukti' => 'bukti/20221003030840.jpg'
         ]);
 
         Tunjangan::create([
@@ -98,21 +98,9 @@ class DatabaseSeeder extends Seeder
             'besar_tunjangan' => 1000000,
             'status' => 'belum',
             'pesan' => 'Untuk Memperbaiki Laptop',
-            'bukti' => '20221003031027.jpg',
+            'bukti' => 'bukti/20221003031027.jpg',
             'created_at' => "2022-10-07" . now()->format('H:i:s'),
             'updated_at' => "2022-10-07" . now()->format('H:i:s'),
-        ]);
-
-        Tunjangan::create([
-            'kode' => 'NAS19VLJ7K',
-            'karyawan_nik' => 'RTS20210712',
-            'jenis_tunjangan' => 'tunjangan_kesehatan',
-            'besar_tunjangan' => 10000000,
-            'status' => 'belum',
-            'pesan' => 'Untuk Berobat',
-            'bukti' => '20221003030840.jpg',
-            'created_at' => "2022-10-09" . now()->format('H:i:s'),
-            'updated_at' => "2022-10-09" . now()->format('H:i:s'),
         ]);
     }
 }

@@ -49,8 +49,6 @@ class DashboardKaryawanController extends Controller
             'bukti' => 'required|image|file'
         ]);
 
-        return redirect('/riwayat-tunjangan');
-
         // $request['kode'] = $this->genKodeTunjangan();
         do {
             $chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -64,14 +62,9 @@ class DashboardKaryawanController extends Controller
         $tunjangan->besar_tunjangan = $request->besar_tunjangan;
         $tunjangan->status = $request->status;
         $tunjangan->pesan = $request->pesan;
-        if ($image = $request->file('bukti')) {
-            $destinationPath = 'images/bukti';
-            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
-            $tunjangan['bukti'] = "$profileImage";
+        if ($request->file('bukti')) {
+            $tunjangan['bukti'] = $request->file('bukti')->store('bukti');
         }
-
-        // return $tunjangan;
         $tunjangan->save();
 
         return redirect('dashboardKaryawan')->with('added', 'Berhasil Mengirim Permintaan');

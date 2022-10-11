@@ -91,7 +91,7 @@
                      @enderror
                   </div>
                   <div class="form-floating mb-3">
-                     <input type="number" value="{{ old('besar_tunjangan') }}" class="form-control @error('besar_tunjangan') is-invalid @enderror" name="besar_tunjangan" id="floatingInput" placeholder="name@example.com"/>
+                     <input required type="number" value="{{ old('besar_tunjangan') }}" class="form-control @error('besar_tunjangan') is-invalid @enderror" name="besar_tunjangan" id="floatingInput" placeholder="name@example.com"/>
                      <label for="floatingInput">Besar Tunjangan</label>
                      @error('besar_tunjangan')
                      <div class="invalid-feedback mt-2">
@@ -101,7 +101,7 @@
                   </div>
                   <div class="my-2 mb-3" id="wadah"></div>
                   <div class="form-floating mb-3">
-                     <textarea class="form-control h-25 @error('pesan') is-invalid @enderror" name="pesan" placeholder="Leave a comment here" id="floatingTextarea">{{ old('pesan') }}</textarea>
+                     <textarea required class="form-control h-25 @error('pesan') is-invalid @enderror" name="pesan" placeholder="Leave a comment here" id="floatingTextarea">{{ old('pesan') }}</textarea>
                      <label for="floatingTextarea">Pesan</label>
                      @error('pesan')
                      <div class="invalid-feedback mt-2">
@@ -111,7 +111,7 @@
                   </div>
                   <div class="mb-3">
                      <img class="img-preview img-fluid d-none rounded col-sm-5">
-                     <input class="form-control @error('bukti') is-invalid @enderror" name="bukti" type="file" id="bukti" onchange="previewImage()">
+                     <input required class="form-control @error('bukti') is-invalid @enderror" name="bukti" type="file" id="bukti" onchange="previewImage()">
                      @error('bukti')
                      <div class="invalid-feedback mt-2">
                         {{ $message }}

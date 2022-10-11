@@ -114,7 +114,6 @@
                   <form action="{{ route('tunjangan.destroy', $tunjangan->kode) }}" method="post" class="d-inline">
                      @method('delete')
                      @csrf
-                     {{-- <button onclick="return confirm('Apakah Yakin?')" type="submit" class="badge text-bg-danger border-0"><span data-feather="trash"></span></button> --}}
                      <a href="#" id="hapusPermintaan" class="text-danger">Hapus Permintaan?</a>
                   </form>
                   </span></small>
@@ -141,7 +140,7 @@
 <div class="row mt-4">
    <div class="col-md-4">
       <div class="card border-0 shadow-sm">
-         <img src="{{ asset("images/bukti/$tunjangan->bukti") }}" class="card-img-top p-2 rounded-4" alt="..." role="button" data-bs-toggle="modal" data-bs-target="#buktiFoto">
+         <img src="{{ asset("images/$tunjangan->bukti") }}" class="card-img-top p-2 rounded-4" alt="..." role="button" data-bs-toggle="modal" data-bs-target="#buktiFoto">
          <div class="card-body">
             <h5 class="card-title">Bukti</h5>
             <p class="card-text text-capitalize">{{ $tunjangan->pesan }}</p>
@@ -153,7 +152,7 @@
                      <h5 class="modal-title" id="buktiFotoLabel">Foto Bukti</h5>
                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                  <div class="modal-body"><img src="{{ asset("images/bukti/$tunjangan->bukti") }}" class="img-fluid rounded-1" alt="..."></div>
+                  <div class="modal-body"><img src="{{ asset("images/$tunjangan->bukti") }}" class="img-fluid rounded-1" alt="..."></div>
                </div>
             </div>
          </div>
