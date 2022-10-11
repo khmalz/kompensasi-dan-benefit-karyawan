@@ -13,7 +13,11 @@
             </form>
          </li>
          <li><hr class="dropdown-divider" /></li>
+         @if ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] < $tunjangan->besar_tunjangan)
+         <li><a class="dropdown-item pe-none" href="#" role="button" data-bs-toggle="modal" data-bs-target="#tanggapan"><del>Tanggapan</del></a></li>
+         @else
          <li><a class="dropdown-item" href="#" role="button" data-bs-toggle="modal" data-bs-target="#tanggapan">Tanggapan</a></li>
+         @endif
       </ul>
    </div>
 

@@ -72,7 +72,6 @@
             <div class="row mx-auto px-5 w-100 py-5">
                <form action="{{ route('dashboardKaryawan.store') }}" method="post"  enctype="multipart/form-data">
                   @csrf
-                  {{-- <p id="nik" name="nik" hidden>{{ auth()->user()->karyawan->nik }}</p> --}}
                   <input type="hidden" class="form-control" name="kode" value="" id="floatingInput" placeholder="nik.com" />
                   <input type="hidden" class="form-control" id="karyawan_nik" name="karyawan_nik" value="{{ auth()->user()->karyawan->nik }}" id="floatingInput" placeholder="nik.com" />
                   <input type="hidden" class="form-control" name="status" value="belum" id="floatingInput" placeholder="belum" />
