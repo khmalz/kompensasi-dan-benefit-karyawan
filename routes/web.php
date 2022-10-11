@@ -12,6 +12,7 @@ use App\Http\Controllers\TunjanganController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardKaryawanController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\RiwayatTunjanganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,82 +41,43 @@ Route::get('/login', [LoginController::class, 'index'])->middleware('guest')->na
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    // Halaman Data Karyawan
-    Route::resource('/dashboardAdmin', DashboardAdminController::class)->except('show', 'edit', 'update', 'destroy');
-    Route::get('/dashboardAdmin/{karyawan}', [DashboardAdminController::class, 'show']);
-    Route::get('/dashboardAdmin/{karyawan}/edit', [DashboardAdminController::class, 'edit']);
-    Route::put('dashboardAdmin/{karyawan}', [DashboardAdminController::class, 'update']);
-    Route::delete('dashboardAdmin/{karyawan:user_id}', [DashboardAdminController::class, 'destroy']);
-
-    Route::get('/tunjangan/tolak', function () {
-        $tanggal = request()->tanggal;
-        $tunjangans = Tunjangan::where('status', 'tolak')->latest()->get();
-
-        if ($tanggal) {
-            $tunjangans = Tunjangan::where('created_at', 'like', "%$tanggal%")->where('status', 'tolak')->latest()->get();
-        }
-        return view('dashboard.karyawan.riwayat-tolak', compact('tunjangans'));
-    });
-
-    // Halaman Permintaan Tunjangan
-    Route::get('/tunjangan-sudah', function () {
-        $pencarian = request()->cari;
-        $tanggal = request()->tanggal;
-
-        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('status', 'sudah')->latest()->get();
-
-        if ($pencarian && $tanggal) {
-            $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('status', 'sudah')->latest()->get();
-        } else if ($tanggal) {
-            $tunjangans = Tunjangan::with('karyawan')->where('created_at', 'like', "%$tanggal%")->where('status', 'sudah')->latest()->get();
-        }
-
-        return view('dashboard.admin.tunjangan.index-sudah', compact('tunjangans'));
-    });
-    Route::resource('/tanggapan', TanggapanController::class);
-});
-
 Route::middleware(['auth'])->group(function () {
+
+    Route::middleware(['admin'])->group(function () {
+        Route::resource('/dashboardAdmin', DashboardAdminController::class)->except('show', 'edit', 'update', 'destroy');
+        Route::get('/dashboardAdmin/{karyawan}', [DashboardAdminController::class, 'show']);
+        Route::get('/dashboardAdmin/{karyawan}/edit', [DashboardAdminController::class, 'edit']);
+        Route::put('dashboardAdmin/{karyawan}', [DashboardAdminController::class, 'update']);
+        Route::delete('dashboardAdmin/{karyawan:user_id}', [DashboardAdminController::class, 'destroy']);
+
+        Route::get('/tunjangan/tolak', [TunjanganController::class, 'tolak']);
+        Route::get('/tunjangan/sudah', [TunjanganController::class, 'sudah']);
+
+        Route::resource('/tanggapan', TanggapanController::class);
+    });
+
+    Route::middleware(['karyawan'])->group(function () {
+        Route::patch('ganti-password', [PasswordController::class, 'update'])->name('ganti-password');
+
+        Route::resource('/dashboardKaryawan', DashboardKaryawanController::class);
+
+        Route::get('/riwayat-tunjangan', [RiwayatTunjanganController::class, 'index']);
+        Route::get('/riwayat-tunjangan/ditolak', [RiwayatTunjanganController::class, 'tolak']);
+
+        Route::get('/dibaca/{notifications?}', function ($id = null) {
+            if ($id) {
+                auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+            } else {
+                auth()->user()->unreadNotifications->markAsRead();
+            }
+            return back();
+        });
+    });
+
     Route::post('/tunjangan/pdf/{tunjangan}', [TunjanganController::class, 'pdf']);
     Route::resource('/tunjangan', TunjanganController::class)->except('pdf');
 
-    Route::patch('ganti-password', [PasswordController::class, 'update'])->name('ganti-password');
-
     Route::get('karyawan/{karyawan}', function (Karyawan $karyawan) {
         return $karyawan->load('user');
-    });
-});
-
-Route::middleware(['auth', 'karyawan'])->group(function () {
-    Route::resource('/dashboardKaryawan', DashboardKaryawanController::class);
-
-    Route::get('/riwayat-tunjangan', function () {
-        $tanggal = request()->tanggal;
-        $tunjangans = Tunjangan::where('karyawan_nik', auth()->user()->karyawan->nik)->latest()->get();
-
-        if ($tanggal) {
-            $tunjangans = Tunjangan::where('created_at', 'like', "%$tanggal%")->where('karyawan_nik', auth()->user()->karyawan->nik)->latest()->get();
-        }
-        return view('dashboard.karyawan.riwayat', compact('tunjangans'));
-    });
-
-    Route::get('/riwayat-tunjangan/ditolak', function () {
-        $tanggal = request()->tanggal;
-        $tunjangans = Tunjangan::where('karyawan_nik', auth()->user()->karyawan->nik)->where('status', 'tolak')->latest()->get();
-
-        if ($tanggal) {
-            $tunjangans = Tunjangan::where('created_at', 'like', "%$tanggal%")->where('karyawan_nik', auth()->user()->karyawan->nik)->where('status', 'tolak')->latest()->get();
-        }
-        return view('dashboard.karyawan.riwayat-tolak', compact('tunjangans'));
-    });
-
-    Route::get('/dibaca/{notifications?}', function ($id = null) {
-        if ($id) {
-            auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
-        } else {
-            auth()->user()->unreadNotifications->markAsRead();
-        }
-        return back();
     });
 });

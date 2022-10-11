@@ -49,7 +49,6 @@ class DashboardKaryawanController extends Controller
             'bukti' => 'required|image|file'
         ]);
 
-        // $request['kode'] = $this->genKodeTunjangan();
         do {
             $chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $request['kode'] = substr(str_shuffle($chars), 0, 10);
@@ -69,18 +68,6 @@ class DashboardKaryawanController extends Controller
 
         return redirect('dashboardKaryawan')->with('added', 'Berhasil Mengirim Permintaan');
     }
-
-    // private function genKodeTunjangan()
-    // {
-    //     $chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    //     $request['kode'] = substr(str_shuffle($chars), 0, 10);
-
-    //     $validate = !Validator::make(Request()->only('kode'), [
-    //         'kode' => 'unique:tunjangans,kode'
-    //     ])->fails();
-
-    //     return $validate ? $kode : $this->genKodeTunjangan();
-    // }
 
     /**
      * Display the specified resource.

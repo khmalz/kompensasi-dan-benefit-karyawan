@@ -34,6 +34,7 @@
                Permintaan Tunjangan
             </a>
          </li>
+         @if (!Hash::check('password', auth()->user()->password))
          <li class="nav-item">
             <a class="nav-link {{ Request::is('riwayat-tunjangan*', 'tunjangan*') ? 'active' : '' }}" href="/riwayat-tunjangan">
                <i class="bi bi-clock-history"></i>
@@ -51,6 +52,7 @@
                @endif
             </button>
          </li>
+         @endif
          @endcan
       </ul>
    </div>

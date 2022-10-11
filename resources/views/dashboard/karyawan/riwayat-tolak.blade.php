@@ -8,7 +8,8 @@
       <button id="submit" class="btn btn-outline-success btn-sm w-25" disabled type="submit">Cari</button>
       <a href="/riwayat-tunjangan" class="btn btn-outline-danger btn-sm w-25 ms-2 {{ request()->tanggal ? "" : "disabled"}}">Reset</a>
    </form>
-   @can('karyawan')
+   @can('admin')
+   @else
    <a href="/riwayat-tunjangan?{{ request()->cari || request()->tanggal ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal : "" }}" class="btn btn-info text-light btn-sm mt-md-0 mt-3">Proses</a>
    @endcan
 </div>

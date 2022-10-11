@@ -8,7 +8,7 @@
       <button id="submit" class="btn btn-outline-success btn-sm w-25" disabled type="submit">Cari</button>
       <a href="/tunjangan" class="btn btn-outline-danger btn-sm w-25 ms-2 {{ request()->cari || request()->tanggal ? "" : "disabled"}}">Reset</a>
     </form>
-   <a href="/tunjangan-sudah?{{ request()->cari || request()->tanggal ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal : "" }}" class="btn btn-info text-light btn-sm mt-md-0 mt-3">Sudah Diproses</a>
+   <a href="/tunjangan/sudah?{{ request()->cari || request()->tanggal ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal : "" }}" class="btn btn-info text-light btn-sm mt-md-0 mt-3">Sudah Diproses</a>
 </div>
 
 @if (session()->has('success'))
@@ -59,7 +59,7 @@
                            <td>{{ $tunjangan->created_at->isoFormat('D MMM Y') }}</td>
                            <td >{{ $tunjangan->kode }}</td>
                            <td class="text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</td>
-                           <td>{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>
+                           <td class="{{ ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] < $tunjangan->besar_tunjangan) ? 'text-danger' : '' }}">{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>
                         @if ($tunjangan->status == 'sudah')
                            <td class="text-capitalize"><span class="badge text-bg-primary text-primary" style="--bs-bg-opacity: .3;">{{ $tunjangan->status }}</span></td>
                         @elseif($tunjangan->status == 'sedang')
@@ -138,7 +138,7 @@
                   <h1 class="display-2 fw-semibold">404</h1>
                   <p class="fs-5">Permintaan Tunjangan <span class="text-danger">Tidak Ditemukan</span></p>
                   @if (request('cari'))
-                  <p class="fs-6">Mungkin Tunjangan Sudah Diproses &raquo;  <a href="/tunjangan-sudah?{{ request()->cari || request()->tanggal ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal : "" }}" class="text-dark">Klik Untuk Melihat</a></p>
+                  <p class="fs-6">Mungkin Tunjangan Sudah Diproses &raquo;  <a href="/tunjangan/sudah?{{ request()->cari || request()->tanggal ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal : "" }}" class="text-dark">Klik Untuk Melihat</a></p>
                   @endif
                </div>
             </div>

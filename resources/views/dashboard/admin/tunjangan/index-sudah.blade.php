@@ -6,7 +6,7 @@
       <input id="cari" class="form-control form-control-sm me-2" type="search" name="cari" value="{{ request()->cari ?? "" }}" placeholder="Ketikkan Nama" aria-label="Pencarian">
       <input id="tanggal" class="form-control form-control-sm me-2" type="date" name="tanggal" value="{{ request()->tanggal ?? "" }}" placeholder="Masukkan Tanggal" aria-label="Pencarian">
       <button id="submit" class="btn btn-outline-success btn-sm w-25" disabled type="submit">Cari</button>
-      <a href="/tunjangan-sudah" class="btn btn-outline-danger btn-sm w-25 ms-2 {{ request()->cari || request()->tanggal ? "" : "disabled"}}">Reset</a>
+      <a href="/tunjangan/sudah" class="btn btn-outline-danger btn-sm w-25 ms-2 {{ request()->cari || request()->tanggal ? "" : "disabled"}}">Reset</a>
     </form>
    <a href="{{ route('tunjangan.index', request()->cari || request()->tanggal ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal : "" ) }}" class="btn btn-warning text-light btn-sm mt-md-0 mt-3">Belum / Sedang Diproses</a>
 </div>

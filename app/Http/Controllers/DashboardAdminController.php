@@ -39,7 +39,6 @@ class DashboardAdminController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
         $model = new User;
         $model->name = $request->name;
         $model->email = $request->email;

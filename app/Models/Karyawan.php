@@ -14,12 +14,6 @@ class Karyawan extends Model
     protected $primaryKey = 'nik';
     public $incrementing = false;
 
-    // protected $casts = [
-    //     'tanggal_masuk'  => 'date:Y-m-d',
-    // ];
-
-    // protected $date = ['tanggal_masuk'];
-
     public function getTanggalMasukAttribute($value)
     {
         return Carbon::parse($value)->isoFormat('DD MMM Y');

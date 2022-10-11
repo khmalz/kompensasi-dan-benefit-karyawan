@@ -44,11 +44,6 @@ class TanggapanController extends Controller
 
         $tunjangan =  Tunjangan::where('kode', $request->kode);
         $karyawan = Karyawan::where('nik', $tunjangan->first()->karyawan_nik);
-        $sisaTunjangan = $karyawan->first()["$request->jenis_tunjangan"] - $request->besar_tunjangan;
-
-        if ($sisaTunjangan < 0) {
-            return back();
-        }
 
         if (empty(Tanggapan::where('kode_tunjangan', $request->kode)->first())) {
             Tanggapan::create([
@@ -65,10 +60,7 @@ class TanggapanController extends Controller
             'status' => $request->status,
         ]);
 
-        if ($tunjangan->first()->status == 'sudah') {
-            // Menggunakan versi nama_tunjangan dengan lengkap yakni ada kata (tunjangan_)
-
-            $karyawan = Karyawan::where('nik', $tunjangan->first()->karyawan_nik);
+        if ($request->status == 'sudah') {
             $karyawan->update([
                 "$request->jenis_tunjangan" => $karyawan->first()["$request->jenis_tunjangan"] - $request->besar_tunjangan
             ]);

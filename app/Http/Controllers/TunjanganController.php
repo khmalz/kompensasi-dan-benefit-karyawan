@@ -23,6 +23,7 @@ class TunjanganController extends Controller
         $this->authorize('admin');
         $pencarian = $request->cari;
         $tanggal = $request->tanggal;
+
         $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->whereIn('status', ['belum', 'sedang'])->latest()->get();
 
         if ($pencarian && $tanggal) {
@@ -42,6 +43,34 @@ class TunjanganController extends Controller
     public function create()
     {
         //
+    }
+
+    public function tolak()
+    {
+        $tanggal = request()->tanggal;
+
+        $tunjangans = Tunjangan::where('status', 'tolak')->latest()->get();
+
+        if ($tanggal) {
+            $tunjangans = Tunjangan::where('created_at', 'like', "%$tanggal%")->where('status', 'tolak')->latest()->get();
+        }
+        return view('dashboard.karyawan.riwayat-tolak', compact('tunjangans'));
+    }
+
+    public function sudah()
+    {
+        $pencarian = request()->cari;
+        $tanggal = request()->tanggal;
+
+        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('status', 'sudah')->latest()->get();
+
+        if ($pencarian && $tanggal) {
+            $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('status', 'sudah')->latest()->get();
+        } else if ($tanggal) {
+            $tunjangans = Tunjangan::with('karyawan')->where('created_at', 'like', "%$tanggal%")->where('status', 'sudah')->latest()->get();
+        }
+
+        return view('dashboard.admin.tunjangan.index-sudah', compact('tunjangans'));
     }
 
     /**
@@ -129,14 +158,8 @@ class TunjanganController extends Controller
     public function destroy(Tunjangan $tunjangan)
     {
         Tunjangan::destroy($tunjangan->kode);
-        $user = User::find($tunjangan->karyawan->user_id);
         File::delete(public_path("images/$tunjangan->bukti"));
 
-        if (auth()->user()->email == 'admin@gmail.com') {
-            Notification::send($user, new TunjanganNotification($tunjangan->kode, "kelebihan"));
-
-            return redirect('/tunjangan');
-        }
         return redirect('/riwayat-tunjangan');
     }
 
