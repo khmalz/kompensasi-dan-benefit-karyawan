@@ -19,6 +19,14 @@
    </div>
 @endif
 
+@if (session()->has('tolak'))
+   <div class="row g-0">
+      <div class="alert alert-warning" role="alert">
+         {{ session('tolak') }}
+      </div>
+   </div>
+@endif
+
 @if ($tunjangans->isNotEmpty())
 
    @if ($tunjangans->where('status', 'belum')->isNotEmpty())

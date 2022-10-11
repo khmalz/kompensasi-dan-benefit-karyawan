@@ -9,7 +9,7 @@
             </a>
          </li>
          <li class="nav-item">
-            <a class="nav-link w-100 d-flex align-items-center gap-2 justify-content-between {{ Request::is('tunjangan*') ? "active" : '' }}" href="/tunjangan">
+            <a class="nav-link w-100 d-flex align-items-center gap-2 justify-content-between {{ Request::is('tunjangan*') ? (Request::is('tunjangan/tolak*') ? "" : "active") : '' }}" href="/tunjangan">
                <div>
                   <i class="bi bi-clock-history"></i>
                   List Tunjangan
@@ -17,6 +17,14 @@
                @if ($total_tunjangan > 0)
                   <span class="badge text-bg-primary rounded-pill me-3 me-md-0" style="font-size: .68rem !important">{{ $total_tunjangan }}</span>
                @endif
+            </a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link w-100 d-flex align-items-center gap-2 justify-content-between {{ Request::is('tunjangan/tolak*') ? "active" : '' }}" href="/tunjangan/tolak">
+               <div>
+                  <i class="bi bi-clock-history"></i>
+                  List Tunjangan Ditolak
+               </div>
             </a>
          </li>
          @else
@@ -65,13 +73,14 @@
                   <div class="alert {{ $notification->data['status'] == 'sedang' || $notification->data['status'] == 'sudah' ? "bg-success" : "bg-danger" }} border-bottom mb-0 border-2 d-flex align-items-center justify-content-between" style="--bs-bg-opacity: 0.12;" role="alert">
                      <div>
                         @if ($notification->data['status'] == 'sedang')
-                        <span>Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> sedang dalam proses</span>
+                        <span class="d-block">Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> sedang dalam proses</span>
                         <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark text-decoration-none fw-semibold">Lihat Selengkapnya</a> 
                         @elseif ($notification->data['status'] == 'sudah')
-                        <span>Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> sudah selesai diproses</span>
+                        <span class="d-block">Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> sudah selesai diproses</span>
                         <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark text-decoration-none fw-semibold">Lihat Selengkapnya</a> 
                         @else
-                        <span>Permintaan Tunjangan dengan kode {{ $notification->data['kode'] }} Dihapus oleh Admin karena <strong>Melebihi</strong> dari Tunjangan Yang Tersedia</span>
+                        <span class="d-block">Permintaan Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> ditolak oleh Admin</span>
+                        <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark text-decoration-none fw-semibold">Lihat Selengkapnya</a> 
                         @endif
 
                         @if ($notification->created_at > now()->subHours(24))  {{-- sehari yang lalu --}}
@@ -87,13 +96,14 @@
                   <div class="alert border-bottom mb-0 border-2 d-flex align-items-center justify-content-between" role="alert">
                      <div>
                         @if ($notification->data['status'] == 'sedang')
-                        <span>Tunjangan dengan kode <span class="fw-semibold">{{ $notification->data['kode'] }}</span> sedang dalam proses</span>
+                        <span class="d-block">Permintaan Tunjangan dengan kode <span class="fw-semibold">{{ $notification->data['kode'] }}</span> sedang dalam proses</span>
                         <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark text-decoration-none fw-semibold">Lihat Selengkapnya</a> 
                         @elseif ($notification->data['status'] == 'sudah')
-                        <span>Tunjangan dengan kode <span class="fw-semibold">{{ $notification->data['kode'] }}</span> sudah selesai diproses</span>
+                        <span class="d-block">Permintaan Tunjangan dengan kode <span class="fw-semibold">{{ $notification->data['kode'] }}</span> sudah selesai diproses</span>
                         <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark text-decoration-none fw-semibold">Lihat Selengkapnya</a> 
                         @else
-                        <span>Permintaan Tunjangan dengan kode {{ $notification->data['kode'] }} Dihapus oleh Admin karena <strong>Melebihi</strong> dari Tunjangan Yang Tersedia</span>
+                        <span class="d-block">Permintaan Tunjangan dengan kode <span class="fw-semibold">{{ $notification->data['kode'] }}</span> ditolak oleh Admin</span>
+                        <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark text-decoration-none fw-semibold">Lihat Selengkapnya</a> 
                         @endif
                         @if ($notification->created_at > now()->subHours(24))  {{-- sehari yang lalu --}}
                         <small><span class="text-secondary d-block mb-1">Hari ini pada {{ $notification->created_at->format('H:i') }} | {{ $notification->created_at->diffForHumans() }}</span></small>

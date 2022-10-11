@@ -48,6 +48,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('dashboardAdmin/{karyawan}', [DashboardAdminController::class, 'update']);
     Route::delete('dashboardAdmin/{karyawan:user_id}', [DashboardAdminController::class, 'destroy']);
 
+    Route::get('/tunjangan/tolak', function () {
+        $tanggal = request()->tanggal;
+        $tunjangans = Tunjangan::where('status', 'tolak')->latest()->get();
+
+        if ($tanggal) {
+            $tunjangans = Tunjangan::where('created_at', 'like', "%$tanggal%")->where('status', 'tolak')->latest()->get();
+        }
+        return view('dashboard.karyawan.riwayat-tolak', compact('tunjangans'));
+    });
+
     // Halaman Permintaan Tunjangan
     Route::get('/tunjangan-sudah', function () {
         $pencarian = request()->cari;
@@ -88,6 +98,16 @@ Route::middleware(['auth', 'karyawan'])->group(function () {
             $tunjangans = Tunjangan::where('created_at', 'like', "%$tanggal%")->where('karyawan_nik', auth()->user()->karyawan->nik)->latest()->get();
         }
         return view('dashboard.karyawan.riwayat', compact('tunjangans'));
+    });
+
+    Route::get('/riwayat-tunjangan/ditolak', function () {
+        $tanggal = request()->tanggal;
+        $tunjangans = Tunjangan::where('karyawan_nik', auth()->user()->karyawan->nik)->where('status', 'tolak')->latest()->get();
+
+        if ($tanggal) {
+            $tunjangans = Tunjangan::where('created_at', 'like', "%$tanggal%")->where('karyawan_nik', auth()->user()->karyawan->nik)->where('status', 'tolak')->latest()->get();
+        }
+        return view('dashboard.karyawan.riwayat-tolak', compact('tunjangans'));
     });
 
     Route::get('/dibaca/{notifications?}', function ($id = null) {

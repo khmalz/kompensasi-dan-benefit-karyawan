@@ -1,22 +1,34 @@
 @extends('dashboard.layouts.main')
 
 @section('isi')
-<form class="d-flex col-md-7 col-lg-5 pb-2 mb-3" role="search" method="get">
-   <input id="tanggal" class="form-control form-control-sm me-2" type="date" name="tanggal" value="{{ request()->tanggal ?? "" }}" placeholder="Masukkan Tanggal" aria-label="Pencarian">
-   <button id="submit" class="btn btn-outline-success btn-sm w-25" disabled type="submit">Cari</button>
-   <a href="/riwayat-tunjangan" class="btn btn-outline-danger btn-sm w-25 ms-2 {{ request()->tanggal ? "" : "disabled"}}">Reset</a>
- </form>
+
+@if (session()->has('success'))
+   <div class="row g-0 pb-2">
+      <div class="alert alert-success" role="alert">
+         {{ session('success') }}
+      </div>
+   </div>
+@endif
+
+<div class="d-md-flex justify-content-between align-items-center flex-wrap flex-md-nowrap pb-2 mb-3">
+   <form class="d-flex col-md-7 col-lg-5 pb-2 mb-3" role="search" method="get">
+      <input id="tanggal" class="form-control form-control-sm me-2" type="date" name="tanggal" value="{{ request()->tanggal ?? "" }}" placeholder="Masukkan Tanggal" aria-label="Pencarian">
+      <button id="submit" class="btn btn-outline-success btn-sm w-25" disabled type="submit">Cari</button>
+      <a href="/riwayat-tunjangan" class="btn btn-outline-danger btn-sm w-25 ms-2 {{ request()->tanggal ? "" : "disabled"}}">Reset</a>
+   </form>
+   <a href="/riwayat-tunjangan/ditolak?{{ request()->cari || request()->tanggal ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal : "" }}" class="btn btn-danger btn-sm mt-md-0 mt-3">Di Tolak</a>
+</div>
 
 @foreach (auth()->user()->unreadnotifications as $notification)
 <div class="row g-0 mb-4">
    <div class="alert {{ $notification->data['status'] == 'sedang' || $notification->data['status'] == 'sudah' ? "alert-success" : "alert-danger" }} d-md-flex align-items-center justify-content-between" role="alert">
       <div>
          @if ($notification->data['status'] == 'sedang')
-         <span>Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> sedang dalam proses</span>
+         <span>Permintaan Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> <strong>Sedang</strong> dalam proses</span>
          @elseif ($notification->data['status'] == 'sudah')
-         <span>Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> sudah selesai diproses</span>
+         <span>Permintaan Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-dark">{{ $notification->data['kode'] }}</a> <strong>Sudah</strong> selesai diproses</span>
          @else
-         <span>Permintaan Tunjangan dengan kode {{ $notification->data['kode'] }} <strong>Melebihi</strong> Dari Tunjangan Yang Tersedia</span>
+         <span>Permintaan Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-danger">{{ $notification->data['kode'] }}</a> <strong>Ditolak</strong> oleh Admin</span>
          @endif
          <span class="{{ $notification->data['status'] == 'sedang' || $notification->data['status'] == 'sudah' ? "text-secondary" : "text-danger" }} d-block mb-1 mb-md-0">{{ $notification->created_at->isoFormat('D MMMM, Y') }} pada {{ $notification->created_at->format('H:i') }} | {{ $notification->created_at->diffForHumans() }}</span>
       </div>
@@ -54,7 +66,7 @@
                         <td>{{ $tunjangan->created_at->isoFormat('D MMM Y') }}</td>
                         <td >{{ $tunjangan->kode }}</td>
                         <td class="text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</td>
-                        <td>{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>
+                        <td class="{{ ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] < $tunjangan->besar_tunjangan) ? 'text-danger' : '' }}">{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>
                         <td class="text-capitalize"><span class="badge text-bg-danger text-danger" style="--bs-bg-opacity: .3;">{{ $tunjangan->status }}</span></td>
                         <td><a href="/tunjangan/{{ $tunjangan->kode }}" class="badge text-bg-primary border-0"><span data-feather="file-text"></span></a></td>
                      </tr>

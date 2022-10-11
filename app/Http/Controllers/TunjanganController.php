@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Karyawan;
 use App\Models\Tunjangan;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -22,12 +23,12 @@ class TunjanganController extends Controller
         $this->authorize('admin');
         $pencarian = $request->cari;
         $tanggal = $request->tanggal;
-        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('status', '!=', 'sudah')->latest()->get();
+        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->whereIn('status', ['belum', 'sedang'])->latest()->get();
 
         if ($pencarian && $tanggal) {
-            $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('status', '!=', 'sudah')->latest()->get();
+            $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->whereIn('status', ['belum', 'sedang'])->latest()->get();
         } else if ($tanggal) {
-            $tunjangans = Tunjangan::with('karyawan')->where('created_at', 'like', "%$tanggal%")->where('status', '!=', 'sudah')->latest()->get();
+            $tunjangans = Tunjangan::with('karyawan')->where('created_at', 'like', "%$tanggal%")->whereIn('status', ['belum', 'sedang'])->latest()->get();
         }
 
         return view('dashboard.admin.tunjangan.index', compact('tunjangans'));
@@ -75,7 +76,11 @@ class TunjanganController extends Controller
      */
     public function edit(Tunjangan $tunjangan)
     {
-        //
+        if ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] >= $tunjangan->besar_tunjangan) {
+            return back();
+        }
+
+        return view('dashboard.karyawan.edit-tunjangan', compact('tunjangan'));
     }
 
     /**
@@ -87,7 +92,32 @@ class TunjanganController extends Controller
      */
     public function update(Request $request, Tunjangan $tunjangan)
     {
-        //
+        $request->validate([
+            'jenis_tunjangan' => 'required',
+        ]);
+
+        $karyawan = Karyawan::where('nik', $request->karyawan_nik)->value($request->jenis_tunjangan);
+
+        $request->validate([
+            'besar_tunjangan' => 'required|lte:' . $karyawan,
+            'pesan' => 'required',
+            'bukti' => 'image|file'
+        ]);
+
+        if ($request->file('bukti')) {
+            File::delete(public_path("images/$tunjangan->bukti"));
+
+            $bukti = $request->file('bukti')->store('bukti');
+        }
+
+        Tunjangan::where('kode', $request->kode)->update([
+            'jenis_tunjangan' => $request->jenis_tunjangan,
+            'besar_tunjangan' => $request->besar_tunjangan,
+            'status' => $request->status,
+            'bukti' => $bukti ?? $tunjangan->bukti,
+        ]);
+
+        return redirect('riwayat-tunjangan')->with('success', 'Berhasil Mengedit Tunjangan');
     }
 
     /**
@@ -102,9 +132,12 @@ class TunjanganController extends Controller
         $user = User::find($tunjangan->karyawan->user_id);
         File::delete(public_path("images/$tunjangan->bukti"));
 
-        Notification::send($user, new TunjanganNotification($tunjangan->kode, "kelebihan"));
+        if (auth()->user()->email == 'admin@gmail.com') {
+            Notification::send($user, new TunjanganNotification($tunjangan->kode, "kelebihan"));
 
-        return redirect('/tunjangan');
+            return redirect('/tunjangan');
+        }
+        return redirect('/riwayat-tunjangan');
     }
 
     public function pdf(Tunjangan $tunjangan)

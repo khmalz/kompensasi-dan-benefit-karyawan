@@ -3,64 +3,81 @@
 <div class="d-md-flex justify-content-sm-between flex-wrap pb-2 mb-3">
    <h1 class="h4 detail-judul">Tunjangan Informasi <span class="fw-lighter">|</span> <span class="text-primary">#{{ $tunjangan->kode }}</span></h1>
    @can('admin')
-   <div class="btn-group">
-      <button type="button" class="btn btn-info btn-sm text-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Aksi</button>
-      <ul class="dropdown-menu">
-         <li>
-            <form action="/tunjangan/pdf/{{ $tunjangan->kode }}" method="post">
-               @csrf
-               <a class="dropdown-item pdf-button" href="#">Ekspor Data ke PDF</a>
-            </form>
-         </li>
-         <li><hr class="dropdown-divider" /></li>
-         @if ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] < $tunjangan->besar_tunjangan)
-         <li><a class="dropdown-item pe-none" href="#" role="button" data-bs-toggle="modal" data-bs-target="#tanggapan"><del>Tanggapan</del></a></li>
-         @else
-         <li><a class="dropdown-item" href="#" role="button" data-bs-toggle="modal" data-bs-target="#tanggapan">Tanggapan</a></li>
-         @endif
-      </ul>
-   </div>
+      @if ($tunjangan->status == 'tolak' || $tunjangan->status == 'sudah')
+      <form action="/tunjangan/pdf/{{ $tunjangan->kode }}" method="post">
+         @csrf
+         <a class="btn btn-info text-light btn-sm pdf-button" href="#">Ekspor Data ke PDF</a>
+      </form>
+      @else
+      <div class="btn-group">
+         <button type="button" class="btn btn-info btn-sm text-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Aksi</button>
+         <ul class="dropdown-menu">
+            <li>
+               <form action="/tunjangan/pdf/{{ $tunjangan->kode }}" method="post">
+                  @csrf
+                  <a class="dropdown-item pdf-button" href="#">Ekspor Data ke PDF</a>
+               </form>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="#" role="button" data-bs-toggle="modal" data-bs-target="#tanggapan">Tanggapan</a></li>
+         </ul>
+      </div>
 
-   <div class="modal fade" id="tanggapan" tabindex="-1" aria-labelledby="tanggapanLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-         <div class="modal-content">
-            <div class="modal-header justify-content-center">
-               <h1 class="modal-title fs-5" id="tanggapanLabel">Tanggapan</h1>
+      <div class="modal fade" id="tanggapan" tabindex="-1" aria-labelledby="tanggapanLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+               <div class="modal-header justify-content-center">
+                  <h1 class="modal-title fs-5" id="tanggapanLabel">Tanggapan</h1>
+               </div>
+               <form action="/tanggapan" method="post">
+                  @csrf
+                  <div class="modal-body">
+                     <input type="hidden" name="kode" value="{{ $tunjangan->kode }}" />
+                     <input type="hidden" name="id" value="{{ $tunjangan->karyawan->user_id }}" />
+                     <input type="hidden" name="jenis_tunjangan" value="{{ $tunjangan->jenis_tunjangan  }}" />
+                     <input type="hidden" name="besar_tunjangan" value="{{ $tunjangan->besar_tunjangan  }}" />
+                     <div class="mb-3">
+                        <label for="select" class="form-label">Status</label>
+                        <select class="form-select" name="status" id="select" aria-label="Floating label select example" required>
+                           <option value="tolak">Menolak Permintaan</option>
+                           @if ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] >= $tunjangan->besar_tunjangan)
+                           <option value="sedang" selected>Sedang Diproses</option>
+                           <option value="sudah">Sudah Diproses</option>
+                           @endif
+                        </select>
+                     </div>
+                     <div class="mb-3">
+                        <label for="pesan" class="form-label">Pesan</label>
+                        <textarea class="form-control" name="pesan" id="pesan" rows="2" required></textarea>
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+               </form>
             </div>
-            <form action="/tanggapan" method="post">
-               @csrf
-               <div class="modal-body">
-                  <input type="hidden" name="kode" value="{{ $tunjangan->kode }}" />
-                  <input type="hidden" name="id" value="{{ $tunjangan->karyawan->user_id }}" />
-                  <input type="hidden" name="jenis_tunjangan" value="{{ $tunjangan->jenis_tunjangan  }}" />
-                  <input type="hidden" name="besar_tunjangan" value="{{ $tunjangan->besar_tunjangan  }}" />
-                  <div class="mb-3">
-                     <label for="select" class="form-label">Status</label>
-                     <select class="form-select" name="status" id="select" aria-label="Floating label select example" required>
-                        <option value="sedang">Sedang Diproses</option>
-                        <option value="sudah">Sudah Diproses</option>
-                     </select>
-                  </div>
-                  <div class="mb-3">
-                     <label for="pesan" class="form-label">Pesan</label>
-                     <textarea class="form-control" name="pesan" id="pesan" rows="2" required></textarea>
-                  </div>
-               </div>
-               <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-               </div>
-            </form>
          </div>
       </div>
-   </div>
-
+      @endif
    @else
-   <form action="/tunjangan/pdf/{{ $tunjangan->kode }}" method="post">
-      @csrf
-      <a class="btn btn-info text-light btn-sm pdf-button" href="#">Ekspor Data ke PDF</a>
-   </form>
+   <div class="d-flex align-items-center gap-3">
+      <form action="/tunjangan/pdf/{{ $tunjangan->kode }}" method="post">
+         @csrf
+         <a class="btn btn-info text-light btn-sm pdf-button" href="#">Ekspor Data ke PDF</a>
+      </form>
+         @if ($tunjangan->status == 'tolak')
+         <form action="{{ route('tunjangan.destroy', $tunjangan->kode) }}" method="post" class="d-inline">
+            @method('delete')
+            @csrf
+            <a href="#" id="hapusPermintaan" class="btn btn-danger btn-sm">Hapus Permintaan</a>
+         </form>
+         @elseif ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] < $tunjangan->besar_tunjangan)
+         <a href="{{ route('tunjangan.edit', $tunjangan->kode) }}" id="editPermintaan" class="btn btn-primary btn-sm">Edit Permintaan</a>
+         @endif
+   </div>
    @endcan
 </div>
+
 
 <div class="card mb-3 border-0 shadow-sm rounded-3">
    <div class="row ms-0 ms-md-2 align-items-center justify-content-center justify-content-md-between">
@@ -93,15 +110,17 @@
                   <p class="m-0 text-capitalize text-primary">{{ $tunjangan->status }} Diproses</p>
                   @elseif($tunjangan->status == 'sedang')
                   <p class="m-0 text-capitalize text-warning">{{ $tunjangan->status }} Diproses</p>
-                  @else
+                  @elseif($tunjangan->status == 'belum')
                   <p class="m-0 text-capitalize text-danger">{{ $tunjangan->status }} Diproses</p>
+                  @else
+                  <p class="m-0 text-capitalize text-danger">Permintaan di{{ $tunjangan->status }}</p>
                   @endif
                </div>
             </li>
             <li class="list-group-item border-0 border-bottom">
                <div class="d-sm-flex justify-content-between">
                   <p class="m-0 mb-1 mb-md-0 fw-bold">Tanggal</p>
-                  <p class="m-0 text-capitalize">{{ $tunjangan->created_at->format('d-m-Y')}}</p>
+                  <p class="m-0 text-capitalize">{{ $tunjangan->created_at->isoFormat('DD-MM-Y')}}</p>
                </div>
             </li>
             <li class="list-group-item border-0 border-bottom">
@@ -110,13 +129,7 @@
                @if ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] < $tunjangan->besar_tunjangan)
                   <p class="m-0 text-capitalize text-danger">Rp {{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</p>
                </div>
-               <small><span class="d-md-flex justify-content-end text-danger">Permintaan Tunjangan Lebih Besar dari Yang Tersedia, 
-                  <form action="{{ route('tunjangan.destroy', $tunjangan->kode) }}" method="post" class="d-inline">
-                     @method('delete')
-                     @csrf
-                     <a href="#" id="hapusPermintaan" class="text-danger">Hapus Permintaan?</a>
-                  </form>
-                  </span></small>
+               <small><span class="d-md-flex justify-content-end text-danger">Permintaan Tunjangan Lebih Besar dari Yang Tersedia</span></small>
                @else
                   <p class="m-0 text-capitalize">Rp {{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</p>
                </div>

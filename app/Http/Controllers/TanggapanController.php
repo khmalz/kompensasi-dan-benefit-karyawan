@@ -76,6 +76,10 @@ class TanggapanController extends Controller
 
         Notification::send($user, new TunjanganNotification($request->kode, $request->status));
 
+        if ($request->status == 'tolak') {
+            return redirect('tunjangan')->with('tolak', 'Penolakan Permintaan Berhasil');
+        }
+
         return redirect('tunjangan')->with('success', 'Berhasil Mengirim Tanggapan');
     }
 
