@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,7 @@
        <div class="row justify-content-between">
          <div class="col">
             <ul class="list-group tunjangan-details">
-               <li class="list-group-item border-0 border-bottom"><p class="h5">Tunjangan Details</p></li>
+               <li class="list-group-item border-0 border-bottom"><p class="h5">Tunjangan Detail</p></li>
                <li class="list-group-item border-0 border-bottom mt-3">
                   <div class="d-sm-flex justify-content-between">
                      <p class="m-0 mb-1 mb-md-0 fw-bold">Jenis Tunjangan</p>

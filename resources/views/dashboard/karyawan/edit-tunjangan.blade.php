@@ -31,7 +31,7 @@
                   @enderror
                </div>
                <div class="form-floating mb-3">
-                  <input required type="number" onkeyup="$('#peringatanAwal').addClass('d-none')" value="{{ old('besar_tunjangan', $tunjangan->besar_tunjangan) }}" class="form-control is-invalid" name="besar_tunjangan" id="floatingInput" placeholder="name@example.com"/>
+                  <input required type="number" onkeyup="$('#peringatanAwal').addClass('d-none')" value="{{ old('besar_tunjangan', $tunjangan->besar_tunjangan) }}" class="form-control {{ $sisaTunjangan < $tunjangan->besar_tunjangan ? 'is-invalid' : ''}} @error('besar_tunjangan') is-invalid @enderror" name="besar_tunjangan" id="floatingInput" placeholder="name@example.com"/>
                   <label for="floatingInput">Besar Tunjangan</label>
                   @error('besar_tunjangan')
                   <div class="invalid-feedback mt-2">
