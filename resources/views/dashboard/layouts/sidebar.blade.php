@@ -4,7 +4,7 @@
          @can('admin')
          <li class="nav-item">
             <a class="nav-link {{ Request::is('dashboardAdmin*') ? 'active' : '' }}" aria-current="page" href="/dashboardAdmin">
-               <i class="bi bi-card-text"></i>
+               <i class="bi bi-file-text"></i>
                Data Karyawan
             </a>
          </li>
@@ -30,7 +30,7 @@
          @else
          <li class="nav-item">
             <a class="nav-link {{ Request::is('dashboardKaryawan*') ? 'active' : '' }}" href="/dashboardKaryawan">
-               <i class="bi bi-cash-stack"></i>
+               <i class="bi bi-collection"></i>
                Permintaan Tunjangan
             </a>
          </li>

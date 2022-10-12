@@ -6,7 +6,7 @@
       @if ($tunjangan->status == 'tolak' || $tunjangan->status == 'sudah')
       <form action="/tunjangan/pdf/{{ $tunjangan->kode }}" method="post">
          @csrf
-         <a class="btn btn-info text-light btn-sm pdf-button" href="#">Ekspor Data ke PDF</a>
+         <a class="btn btn-info text-light btn-sm pdf-button" href="#">Ekspor Data ke PDF <i class="bi bi-file-earmark-pdf"></i></a>
       </form>
       @else
       <div class="btn-group">
@@ -15,11 +15,11 @@
             <li>
                <form action="/tunjangan/pdf/{{ $tunjangan->kode }}" method="post">
                   @csrf
-                  <a class="dropdown-item pdf-button" href="#">Ekspor Data ke PDF</a>
+                  <a class="dropdown-item pdf-button" href="#">Ekspor Data ke PDF <i class="bi bi-file-earmark-pdf"></i></a>
                </form>
             </li>
             <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#" role="button" data-bs-toggle="modal" data-bs-target="#tanggapan">Tanggapan</a></li>
+            <li><a class="dropdown-item" href="#" role="button" data-bs-toggle="modal" data-bs-target="#tanggapan">Tanggapan <i class="bi bi-box-arrow-in-up-right"></i></a></li>
          </ul>
       </div>
 
@@ -63,20 +63,20 @@
    <div class="d-flex align-items-center gap-3">
       <form action="/tunjangan/pdf/{{ $tunjangan->kode }}" method="post">
          @csrf
-         <a class="btn btn-info text-light btn-sm pdf-button" href="#">Ekspor Data ke PDF</a>
+         <a class="btn btn-info text-light btn-sm pdf-button" href="#">Ekspor Data ke PDF <i class="bi bi-file-earmark-pdf"></i></a>
       </form>
          @if ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] < $tunjangan->besar_tunjangan || $tunjangan->status == 'tolak')
          <div class="btn-group">
-            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Tanggapan</button>
+            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Aksi</button>
             <ul class="dropdown-menu">
-               <li><a class="dropdown-item" href="{{ route('tunjangan.edit', $tunjangan->kode) }}" id="editPermintaan">Edit Permintaan</a></li>
+               <li><a class="dropdown-item" href="{{ route('tunjangan.edit', $tunjangan->kode) }}" id="editPermintaan">Edit Permintaan <i class="bi bi-pen"></i></a></li>
                <li><hr class="dropdown-divider" /></li>
                <li></li>
                <li>
                   <form action="{{ route('tunjangan.destroy', $tunjangan->kode) }}" method="post" class="d-inline">
                      @method('delete')
                      @csrf
-                     <a class="dropdown-item" id="hapusPermintaan" href="#" role="button" data-bs-toggle="modal" data-bs-target="#tanggapan">Hapus Permintaan</a>
+                     <a class="dropdown-item" id="hapusPermintaan" href="#" role="button" data-bs-toggle="modal" data-bs-target="#tanggapan">Hapus Permintaan <i class="bi bi-trash2-fill"></i></a>
                   </form>
                </li>
             </ul>
@@ -183,10 +183,27 @@
 
 <script>
    $("#hapusPermintaan").on('click', function() {
-      let tanya = confirm("Apakah Yakin ?")
-      if (tanya) {
-         $(this).closest('form').submit()
-      }
+      var form = $(this).closest("form");
+      Swal.fire({
+         title: "Apakah Yakin Mau Hapus?",
+         icon: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#d33",
+         cancelButtonColor: "#3085d6",
+         cancelButtonText: "Batal",
+         confirmButtonText: "Ya, Dihapus!",
+      }).then((result) => {
+         if (result.isConfirmed) {
+            Swal.fire(
+               'Dihapus!',
+               'Data berhasil dihapus.',
+               'success'
+            )
+            setTimeout(() => {
+               form.submit()
+            }, 1000);
+         }
+      });
    })
    
    $(".pdf-button").on("click", function () {
@@ -197,7 +214,8 @@
          showCancelButton: true,
          confirmButtonColor: "#3085d6",
          cancelButtonColor: "#d33",
-         confirmButtonText: "Yes, download it!",
+         cancelButtonText: "Batal",
+         confirmButtonText: "Ya, download!",
       }).then((result) => {
          if (result.isConfirmed) {
             Swal.fire({

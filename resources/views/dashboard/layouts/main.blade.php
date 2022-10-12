@@ -152,7 +152,7 @@
                @endcan
                <form action="{{ route('logout') }}" method="post" id="logout">
                   @csrf
-                  <a onclick='$("#logout").submit()' href="#" class="nav-link px-3 text-dark logout">Logout</a>
+                  <a onclick='$("#logout").submit()' href="#" class="nav-link px-3 text-dark logout">Logout <i class="bi bi-box-arrow-right"></i></a>
                </form>
             </div>
       </header>
@@ -172,6 +172,7 @@
                   <i class="bi bi-bell"></i>
                </button>
                @endcan
+               
                @yield('isi')
             </main>
          </div>
@@ -185,6 +186,13 @@
 
       <script>
          feather.replace({ "aria-hidden": "true" });
+
+         function convertRupiah(angka) {
+            var reverse = angka.toString().split('').reverse().join(''),
+            ribuan 	= reverse.match(/\d{1,3}/g);
+            ribuan	= ribuan.join('.').split('').reverse().join('');
+            return ribuan;
+         }
       </script>
    </body>
 </html>
