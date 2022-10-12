@@ -40,7 +40,7 @@
                         <label for="select" class="form-label">Status</label>
                         <select class="form-select" name="status" id="select" aria-label="Floating label select example" required>
                            <option value="tolak">Menolak Permintaan</option>
-                           @if ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] >= $tunjangan->besar_tunjangan)
+                           @if ($sisaTunjangan >= $tunjangan->besar_tunjangan)
                            <option value="sedang" selected>Sedang Diproses</option>
                            <option value="sudah">Sudah Diproses</option>
                            @endif
@@ -59,17 +59,18 @@
          </div>
       </div>
       @endif
+      
    @else
    <div class="d-flex align-items-center gap-3">
       <form action="/tunjangan/pdf/{{ $tunjangan->kode }}" method="post">
          @csrf
          <a class="btn btn-info text-light btn-sm pdf-button" href="#">Ekspor Data ke PDF <i class="bi bi-file-earmark-pdf"></i></a>
       </form>
-         @if ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] < $tunjangan->besar_tunjangan || $tunjangan->status == 'tolak')
+         @if ( ($sisaTunjangan < $tunjangan->besar_tunjangan && $tunjangan->status != 'sudah' && $tunjangan->status != 'sedang') || $tunjangan->status === 'tolak')
          <div class="btn-group">
             <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Aksi</button>
             <ul class="dropdown-menu">
-               <li><a class="dropdown-item" href="{{ route('tunjangan.edit', $tunjangan->kode) }}" id="editPermintaan">Edit Permintaan <i class="bi bi-pen"></i></a></li>
+               <li><a class="dropdown-item" href="{{ route('tunjangan.edit', $tunjangan->kode) }}" id="{{ $sisaTunjangan <= 0 ? "editPermintaan" : ''}}" >Edit Permintaan <i class="bi bi-pen"></i></a></li>
                <li><hr class="dropdown-divider" /></li>
                <li></li>
                <li>
@@ -134,7 +135,7 @@
             <li class="list-group-item border-0 border-bottom">
                <div class="d-sm-flex justify-content-between">
                   <p class="m-0 mb-1 mb-md-0 fw-bold">Besar Tunjangan</p>
-               @if ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] < $tunjangan->besar_tunjangan)
+               @if ($sisaTunjangan < $tunjangan->besar_tunjangan && $tunjangan->status != 'sudah')
                   <p class="m-0 text-capitalize text-danger">Rp {{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</p>
                </div>
                <small><span class="d-md-flex justify-content-end text-danger">Permintaan Tunjangan Lebih Besar dari Yang Tersedia</span></small>
@@ -182,10 +183,22 @@
 </div>
 
 <script>
+   $("#editPermintaan").on('click', function (e) {
+      e.preventDefault();
+
+      Swal.fire({
+         icon: 'error',
+         title: 'Oops...',
+         text: 'Sisa Tunjangaan Kamu Sudah Habis, Tidak Bisa Mengedit dan Mengirimkan Permintaan Kembali',
+      }).then(() => {
+         $("#hapusPermintaan").click()
+      })
+   })
+   
    $("#hapusPermintaan").on('click', function() {
       var form = $(this).closest("form");
       Swal.fire({
-         title: "Apakah Yakin Mau Hapus?",
+         title: "Apakah Mau Dihapus?",
          icon: "warning",
          showCancelButton: true,
          confirmButtonColor: "#d33",

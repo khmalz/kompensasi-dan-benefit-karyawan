@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use App\Models\Karyawan;
 use App\Models\Tunjangan;
 use Illuminate\Support\Facades\DB;

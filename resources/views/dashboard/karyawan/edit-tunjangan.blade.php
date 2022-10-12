@@ -31,7 +31,7 @@
                   @enderror
                </div>
                <div class="form-floating mb-3">
-                  <input required type="number" onkeyup="$('#peringatanAwal').addClass('d-none')" value="{{ old('besar_tunjangan', $tunjangan->besar_tunjangan) }}" class="form-control {{ $sisaTunjangan < $tunjangan->besar_tunjangan ? 'is-invalid' : ''}} @error('besar_tunjangan') is-invalid @enderror" name="besar_tunjangan" id="floatingInput" placeholder="name@example.com"/>
+                  <input required type="number" onkeyup="$('#peringatanAwal').addClass('d-none')" value="{{ old('besar_tunjangan', $tunjangan->besar_tunjangan) }}" class="form-control {{ $sisaTunjangan < $tunjangan->besar_tunjangan ? 'is-invalid' : ''}} @error('besar_tunjangan') is-invalid @enderror" name="besar_tunjangan" id="besar_tunjangan" placeholder="name@example.com"/>
                   <label for="floatingInput">Besar Tunjangan</label>
                   @error('besar_tunjangan')
                   <div class="invalid-feedback mt-2">
@@ -39,10 +39,13 @@
                   </div>
                   @enderror
                </div>
+
                @if ($sisaTunjangan < $tunjangan->besar_tunjangan)
                <div class="my-2 mb-3 text-danger {{ old('besar_tunjangan') ?  'd-none' : ''}}" id="peringatanAwal">Permintaanmu Melebihi Tunjangan yang Tersedia</div>
                @endif
                <div class="my-2 mb-3" id="wadah"></div>
+               <div class="my-2 mb-3" id="peringatan"></div>
+
                <div class="form-floating mb-3">
                   <textarea required class="form-control h-25 @error('pesan') is-invalid @enderror" name="pesan" placeholder="Leave a comment here" id="floatingTextarea">{{ old('pesan', $tunjangan->pesan) }}</textarea>
                   <label for="floatingTextarea">Pesan</label>
@@ -61,7 +64,7 @@
                   </div>
                   @enderror
                </div>
-               <button type="submit" class="btn btn-success mt-2">Kirim</button>
+               <button type="submit" class="btn btn-success mt-2" id="kirim_tunjangan">Kirim</button>
             </form>
          </div>
       </div>
@@ -84,7 +87,7 @@
       tampilkanSisaTunjangan(data);
       
       $("#jenis_tunjangan").on('change', function() {
-         data = $("#jenis_tunjangan").val()
+         data = $(this).val()
          tampilkanSisaTunjangan(data);
       })
    })
@@ -95,11 +98,18 @@
          url: "/karyawan/" + $("#karyawan_nik").val(),
          dataType: "json",
          success: function (res) {
-            $("#wadah").html("")
+            $("#wadah, #peringatan").html("")
+            $("#besar_tunjangan, #kirim_tunjangan").removeAttr('disabled')
             var isi = 'Sisa Tunjangan Kamu <span class="text-primary" id="pemberitahuan"></span>'
             $("#wadah").html(isi)
             $("#pemberitahuan").html("")
-            $("#pemberitahuan").text(convertRupiah(res[jenis]))
+            $("#pemberitahuan").text("Rp. " + convertRupiah(res[jenis]))
+            if (res[jenis] <= 0) {
+               var info = 'Jatah Tunjangan Kamu <span class="text-danger">Sudah Habis, Tidak Bisa Pilih Tunjangan Tersebut</span>'
+               $("#peringatan").html(info)
+               $("#besar_tunjangan").attr('disabled', 'true')
+               $("#kirim_tunjangan").attr('disabled', 'true')
+            }
          },
          error: function (err) {
             console.log(err);

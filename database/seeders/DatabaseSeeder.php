@@ -63,8 +63,8 @@ class DatabaseSeeder extends Seeder
             'status' => 'belum',
             'pesan' => 'Untuk Mengobati Flu',
             'bukti' => 'bukti/20221003031157.jpeg',
-            'created_at' => "2022-10-08" . now()->format('H:i:s'),
-            'updated_at' => "2022-10-08" . now()->format('H:i:s'),
+            'created_at' => "2022-10-10" . now()->format('H:i:s'),
+            'updated_at' => "2022-10-10" . now()->format('H:i:s'),
         ]);
 
         Tunjangan::create([
@@ -75,8 +75,8 @@ class DatabaseSeeder extends Seeder
             'status' => 'belum',
             'pesan' => 'Menikah',
             'bukti' => 'bukti/20221005092955.jpg',
-            'created_at' => "2022-10-06" . now()->format('H:i:s'),
-            'updated_at' => "2022-10-06" . now()->format('H:i:s'),
+            'created_at' => "2022-10-07" . now()->format('H:i:s'),
+            'updated_at' => "2022-10-07" . now()->format('H:i:s'),
         ]);
 
         Tunjangan::create([
@@ -97,8 +97,8 @@ class DatabaseSeeder extends Seeder
             'status' => 'belum',
             'pesan' => 'Untuk Memperbaiki Laptop',
             'bukti' => 'bukti/20221003031027.jpg',
-            'created_at' => "2022-10-07" . now()->format('H:i:s'),
-            'updated_at' => "2022-10-07" . now()->format('H:i:s'),
+            'created_at' => "2022-10-09" . now()->format('H:i:s'),
+            'updated_at' => "2022-10-09" . now()->format('H:i:s'),
         ]);
     }
 }

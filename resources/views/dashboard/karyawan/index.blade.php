@@ -91,7 +91,7 @@
                      @enderror
                   </div>
                   <div class="form-floating mb-3">
-                     <input required type="number" value="{{ old('besar_tunjangan') }}" class="form-control @error('besar_tunjangan') is-invalid @enderror" name="besar_tunjangan" id="floatingInput" placeholder="name@example.com"/>
+                     <input required type="number" value="{{ old('besar_tunjangan') }}" class="form-control @error('besar_tunjangan') is-invalid @enderror" name="besar_tunjangan" id="besar_tunjangan" placeholder="name@example.com"/>
                      <label for="floatingInput">Besar Tunjangan</label>
                      @error('besar_tunjangan')
                      <div class="invalid-feedback mt-2">
@@ -99,7 +99,10 @@
                      </div>
                      @enderror
                   </div>
+
                   <div class="my-2 mb-3" id="wadah"></div>
+                  <div class="my-2 mb-3" id="peringatan"></div>
+
                   <div class="form-floating mb-3">
                      <textarea required class="form-control h-25 @error('pesan') is-invalid @enderror" name="pesan" placeholder="Leave a comment here" id="floatingTextarea">{{ old('pesan') }}</textarea>
                      <label for="floatingTextarea">Pesan</label>
@@ -118,7 +121,7 @@
                      </div>
                      @enderror
                   </div>
-                  <button type="submit" class="btn btn-success mt-2">Kirim</button>
+                  <button type="submit" class="btn btn-success mt-2" id="kirim_tunjangan">Kirim</button>
                </form>
             </div>
          </div>
@@ -155,20 +158,27 @@
 
    function tampilkanSisaTunjangan(jenis) {
       $.ajax({
-            type: "GET",
-            url: "/karyawan/" + $("#karyawan_nik").val(),
-            dataType: "json",
-            success: function (res) {
-               $("#wadah").html("")
-               var isi = 'Sisa Tunjangan Kamu <span class="text-primary" id="pemberitahuan"></span>'
-               $("#wadah").html(isi)
-               $("#pemberitahuan").html("")
-               $("#pemberitahuan").text(convertRupiah(res[jenis]))
-            },
-            error: function (err) {
-               console.log(err);
-            },
-         });
+         type: "GET",
+         url: "/karyawan/" + $("#karyawan_nik").val(),
+         dataType: "json",
+         success: function (res) {
+            $("#wadah, #peringatan").html("")
+            $("#besar_tunjangan, #kirim_tunjangan").removeAttr('disabled')
+            var isi = 'Sisa Tunjangan Kamu <span class="text-primary" id="pemberitahuan"></span>'
+            $("#wadah").html(isi)
+            $("#pemberitahuan").html("")
+            $("#pemberitahuan").text("Rp. " + convertRupiah(res[jenis]))
+            if (res[jenis] <= 0) {
+               var info = 'Jatah Tunjangan Kamu <span class="text-danger">Sudah Habis, Tidak Bisa Pilih Tunjangan Tersebut</span>'
+               $("#peringatan").html(info)
+               $("#besar_tunjangan").attr('disabled', 'true')
+               $("#kirim_tunjangan").attr('disabled', 'true')
+            }
+         },
+         error: function (err) {
+            console.log(err);
+         },
+      });
    }
 
 </script>

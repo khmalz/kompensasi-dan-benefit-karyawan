@@ -94,7 +94,8 @@ class TunjanganController extends Controller
     public function show(Tunjangan $tunjangan)
     {
         // return $tunjangan->load('karyawan.user', 'tanggapan');
-        return view('dashboard.admin.tunjangan.detail', compact('tunjangan'));
+        $sisaTunjangan = $tunjangan->karyawan[$tunjangan->jenis_tunjangan];
+        return view('dashboard.admin.tunjangan.detail', compact('tunjangan', 'sisaTunjangan'));
     }
 
     /**
@@ -105,12 +106,28 @@ class TunjanganController extends Controller
      */
     public function edit(Tunjangan $tunjangan)
     {
+        /**
+         * Hanya status yang ditolak yang boleh masuk halaman
+         * Hanya yang Tunjangannya lebih kecil dari permintaannya dan TUNJANGANNYA BELUM HABIS yang bisa masuk
+         */
+
+        $this->authorize('karyawan');
+
         $sisaTunjangan = $tunjangan->karyawan[$tunjangan->jenis_tunjangan];
-        if ($tunjangan->status !== 'tolak' && $sisaTunjangan >= $tunjangan->besar_tunjangan) {
-            return back();
+
+        if ($tunjangan->status === 'tolak' || $sisaTunjangan < $tunjangan->besar_tunjangan) {
+            if ($sisaTunjangan <= 0) {
+                return back();
+            }
+
+            if ($tunjangan->status == 'sedang' || $tunjangan->status == 'sudah') {
+                return back();
+            }
+
+            return view('dashboard.karyawan.edit-tunjangan', compact('tunjangan', 'sisaTunjangan'));
         }
 
-        return view('dashboard.karyawan.edit-tunjangan', compact('tunjangan', 'sisaTunjangan'));
+        return back();
     }
 
     /**
