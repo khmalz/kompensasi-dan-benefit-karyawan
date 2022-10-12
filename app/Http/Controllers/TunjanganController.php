@@ -105,11 +105,12 @@ class TunjanganController extends Controller
      */
     public function edit(Tunjangan $tunjangan)
     {
-        if ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] >= $tunjangan->besar_tunjangan) {
+        $sisaTunjangan = $tunjangan->karyawan[$tunjangan->jenis_tunjangan];
+        if ($tunjangan->status !== 'tolak' && $sisaTunjangan >= $tunjangan->besar_tunjangan) {
             return back();
         }
 
-        return view('dashboard.karyawan.edit-tunjangan', compact('tunjangan'));
+        return view('dashboard.karyawan.edit-tunjangan', compact('tunjangan', 'sisaTunjangan'));
     }
 
     /**
@@ -121,10 +122,6 @@ class TunjanganController extends Controller
      */
     public function update(Request $request, Tunjangan $tunjangan)
     {
-        $request->validate([
-            'jenis_tunjangan' => 'required',
-        ]);
-
         $karyawan = Karyawan::where('nik', $request->karyawan_nik)->value($request->jenis_tunjangan);
 
         $request->validate([
@@ -143,6 +140,7 @@ class TunjanganController extends Controller
             'jenis_tunjangan' => $request->jenis_tunjangan,
             'besar_tunjangan' => $request->besar_tunjangan,
             'status' => $request->status,
+            'pesan' => $request->pesan,
             'bukti' => $bukti ?? $tunjangan->bukti,
         ]);
 

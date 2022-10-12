@@ -52,7 +52,7 @@
                      </div>
                   </div>
                   <div class="modal-footer">
-                     <button type="submit" class="btn btn-primary">Submit</button>
+                     <button type="submit" class="btn btn-primary">Kirim</button>
                   </div>
                </form>
             </div>
@@ -65,14 +65,22 @@
          @csrf
          <a class="btn btn-info text-light btn-sm pdf-button" href="#">Ekspor Data ke PDF</a>
       </form>
-         @if ($tunjangan->status == 'tolak')
-         <form action="{{ route('tunjangan.destroy', $tunjangan->kode) }}" method="post" class="d-inline">
-            @method('delete')
-            @csrf
-            <a href="#" id="hapusPermintaan" class="btn btn-danger btn-sm">Hapus Permintaan</a>
-         </form>
-         @elseif ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] < $tunjangan->besar_tunjangan)
-         <a href="{{ route('tunjangan.edit', $tunjangan->kode) }}" id="editPermintaan" class="btn btn-primary btn-sm">Edit Permintaan</a>
+         @if ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] < $tunjangan->besar_tunjangan || $tunjangan->status == 'tolak')
+         <div class="btn-group">
+            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Tanggapan</button>
+            <ul class="dropdown-menu">
+               <li><a class="dropdown-item" href="{{ route('tunjangan.edit', $tunjangan->kode) }}" id="editPermintaan">Edit Permintaan</a></li>
+               <li><hr class="dropdown-divider" /></li>
+               <li></li>
+               <li>
+                  <form action="{{ route('tunjangan.destroy', $tunjangan->kode) }}" method="post" class="d-inline">
+                     @method('delete')
+                     @csrf
+                     <a class="dropdown-item" id="hapusPermintaan" href="#" role="button" data-bs-toggle="modal" data-bs-target="#tanggapan">Hapus Permintaan</a>
+                  </form>
+               </li>
+            </ul>
+         </div>
          @endif
    </div>
    @endcan

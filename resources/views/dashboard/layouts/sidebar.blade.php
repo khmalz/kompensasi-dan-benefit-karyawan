@@ -11,7 +11,7 @@
          <li class="nav-item">
             <a class="nav-link w-100 d-flex align-items-center gap-2 justify-content-between {{ Request::is('tunjangan*') ? (Request::is('tunjangan/tolak*') ? "" : "active") : '' }}" href="/tunjangan">
                <div>
-                  <i class="bi bi-clock-history"></i>
+                  <i class="bi bi-clipboard2"></i>
                   List Tunjangan
                </div>
                @if ($total_tunjangan > 0)
@@ -22,7 +22,7 @@
          <li class="nav-item">
             <a class="nav-link w-100 d-flex align-items-center gap-2 justify-content-between {{ Request::is('tunjangan/tolak*') ? "active" : '' }}" href="/tunjangan/tolak">
                <div>
-                  <i class="bi bi-clock-history"></i>
+                  <i class="bi bi-clipboard2-x"></i>
                   List Tunjangan Ditolak
                </div>
             </a>
@@ -41,7 +41,7 @@
                Riwayat Tunjangan
             </a>
          </li>
-         <li class="nav-item mt-md-auto mb-3 me-3 me-md-2 mt-2">
+         <li class="nav-item mt-md-auto mb-3 me-3 me-md-2 mt-2 d-none d-md-block">
             <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="nav-link w-100 bg-success d-flex align-items-center justify-content-between border-0 text-success py-1 px-3 rounded-3"  style="--bs-bg-opacity: .3;" >
                <div>
                   <i class="bi bi-bell"></i>

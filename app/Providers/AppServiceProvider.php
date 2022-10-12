@@ -30,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
             return $user->email === 'admin@gmail.com';
         });
 
+        Gate::define('karyawan', function (User $user) {
+            return $user->email !== 'admin@gmail.com';
+        });
+
         view()->composer(
             'dashboard.layouts.sidebar',
             function ($view) {

@@ -76,14 +76,14 @@
                   <input type="hidden" class="form-control" id="karyawan_nik" name="karyawan_nik" value="{{ auth()->user()->karyawan->nik }}" id="floatingInput" placeholder="nik.com" />
                   <input type="hidden" class="form-control" name="status" value="belum" id="floatingInput" placeholder="belum" />
                   <div class="form-floating mb-3">
-                     <select class="form-select @error('jenis_tunjangan') is-invalid @enderror" name="jenis_tunjangan" id="floatingSelect" aria-label="Floating label select example" required>
+                     <select class="form-select @error('jenis_tunjangan') is-invalid @enderror" name="jenis_tunjangan" id="jenis_tunjangan" aria-label="Floating label select example" required>
                         <option selected disabled>Pilih Jenis Tunjangan</option>
                         <option {{ old('jenis_tunjangan') == 'tunjangan_kesehatan' ? 'selected' : '' }} value="tunjangan_kesehatan">Kesehatan</option>
                         <option {{ old('jenis_tunjangan') == 'tunjangan_pernikahan' ? 'selected' : '' }} value="tunjangan_pernikahan">Pernikahan</option>
                         <option {{ old('jenis_tunjangan') == 'tunjangan_bencana' ? 'selected' : '' }} value="tunjangan_bencana">Bencana</option>
                         <option {{ old('jenis_tunjangan') == 'tunjangan_kematian' ? 'selected' : '' }} value="tunjangan_kematian">Kematian</option>
                      </select>
-                     <label for="floatingSelect">Jenis Tunjangan</label>
+                     <label for="jenis_tunjangan">Jenis Tunjangan</label>
                      @error('jenis_tunjangan')
                      <div class="invalid-feedback mt-2">
                         {{ $message }}
@@ -110,7 +110,7 @@
                      @enderror
                   </div>
                   <div class="mb-3">
-                     <img class="img-preview img-fluid d-none rounded col-sm-5">
+                     <img class="img-preview img-fluid d-none rounded col-md-8 col-lg-5">
                      <input required class="form-control @error('bukti') is-invalid @enderror" name="bukti" type="file" id="bukti" onchange="previewImage()">
                      @error('bukti')
                      <div class="invalid-feedback mt-2">
@@ -147,25 +147,29 @@
 
    $(document).ready(function() {
       let data = ""
-      $("#floatingSelect").on('change', function () {
-            data = $("#floatingSelect").val()
-            $.ajax({
-               type: "GET",
-               url: "/karyawan/" + $("#karyawan_nik").val(),
-               dataType: "json",
-               success: function (res) {
-                  $("#wadah").html("")
-                  var isi = 'Sisa Tunjangan Kamu <span class="text-primary" id="pemberitahuan"></span>'
-                  $("#wadah").html(isi)
-                  $("#pemberitahuan").html("")
-                  $("#pemberitahuan").text(convertRupiah(res[data]))
-               },
-               error: function (err) {
-                  console.log(err);
-               },
-            });
-         })
+      $("#jenis_tunjangan").on('change', function () {
+         data = $(this).val()
+         tampilkanSisaTunjangan(data)
+      })
    })
+
+   function tampilkanSisaTunjangan(jenis) {
+      $.ajax({
+            type: "GET",
+            url: "/karyawan/" + $("#karyawan_nik").val(),
+            dataType: "json",
+            success: function (res) {
+               $("#wadah").html("")
+               var isi = 'Sisa Tunjangan Kamu <span class="text-primary" id="pemberitahuan"></span>'
+               $("#wadah").html(isi)
+               $("#pemberitahuan").html("")
+               $("#pemberitahuan").text(convertRupiah(res[jenis]))
+            },
+            error: function (err) {
+               console.log(err);
+            },
+         });
+   }
 
    function convertRupiah(angka) {
       var reverse = angka.toString().split('').reverse().join(''),

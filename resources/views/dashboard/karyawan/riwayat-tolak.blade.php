@@ -2,15 +2,14 @@
 
 @section('isi')
 
-<div class="d-md-flex justify-content-between align-items-center flex-wrap flex-md-nowrap pb-2 mb-3">
-   <form class="d-flex col-md-7 col-lg-5 pb-2 mb-3" role="search" method="get">
+<div class="d-md-flex justify-content-between align-items-center flex-wrap flex-md-nowrap pb-2 mb-4">
+   <form class="d-flex col-md-7 col-lg-5 pb-2 mb-2 mb-md-0" role="search" method="get">
       <input id="tanggal" class="form-control form-control-sm me-2" type="date" name="tanggal" value="{{ request()->tanggal ?? "" }}" placeholder="Masukkan Tanggal" aria-label="Pencarian">
       <button id="submit" class="btn btn-outline-success btn-sm w-25" disabled type="submit">Cari</button>
       <a href="/riwayat-tunjangan" class="btn btn-outline-danger btn-sm w-25 ms-2 {{ request()->tanggal ? "" : "disabled"}}">Reset</a>
    </form>
-   @can('admin')
-   @else
-   <a href="/riwayat-tunjangan?{{ request()->cari || request()->tanggal ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal : "" }}" class="btn btn-info text-light btn-sm mt-md-0 mt-3">Proses</a>
+   @can('karyawan')
+   <a href="/riwayat-tunjangan?{{ request()->cari || request()->tanggal ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal : "" }}" class="btn btn-info text-light btn-sm">Proses</a>
    @endcan
 </div>
 

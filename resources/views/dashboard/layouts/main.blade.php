@@ -162,6 +162,16 @@
             @include('dashboard.layouts.sidebar')
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-0 pt-3 mt-4">
+               @can('karyawan')
+               <button class="position-fixed border-0 d-md-none bottom-0 end-0 bg-success text-success fs-5 me-3 mb-3 p-1 px-2 rounded-circle" style="--bs-bg-opacity: .3;z-index: 100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  @if (auth()->user()->unreadnotifications->isNotEmpty())
+                  <span class="position-absolute top-0 end-0 p-1 bg-success border border-light rounded-circle">
+                     <span class="visually-hidden"></span>
+                  </span>
+                  @endif
+                  <i class="bi bi-bell"></i>
+               </button>
+               @endcan
                @yield('isi')
             </main>
          </div>
