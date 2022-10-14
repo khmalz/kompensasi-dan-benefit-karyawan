@@ -23,14 +23,9 @@ class TunjanganController extends Controller
         $this->authorize('admin');
         $pencarian = $request->cari;
         $tanggal = $request->tanggal;
+        $jenis_tunjangan = $request->jenis;
 
-        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->whereIn('status', ['belum', 'sedang'])->latest()->get();
-
-        if ($pencarian && $tanggal) {
-            $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->whereIn('status', ['belum', 'sedang'])->latest()->get();
-        } else if ($tanggal) {
-            $tunjangans = Tunjangan::with('karyawan')->where('created_at', 'like', "%$tanggal%")->whereIn('status', ['belum', 'sedang'])->latest()->get();
-        }
+        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('jenis_tunjangan', 'like', "%$jenis_tunjangan%")->whereIn('status', ['belum', 'sedang'])->latest()->get();
 
         return view('dashboard.admin.tunjangan.index', compact('tunjangans'));
     }
@@ -47,13 +42,16 @@ class TunjanganController extends Controller
 
     public function tolak()
     {
+        $pencarian = request()->cari;
         $tanggal = request()->tanggal;
+        $jenis_tunjangan = request()->jenis;
 
-        $tunjangans = Tunjangan::where('status', 'tolak')->latest()->get();
+        $tunjangans = Tunjangan::where('created_at', 'like', "%$tanggal%")->where('jenis_tunjangan', 'like', "%$jenis_tunjangan%")->where('status', 'tolak')->latest()->get();
 
-        if ($tanggal) {
-            $tunjangans = Tunjangan::where('created_at', 'like', "%$tanggal%")->where('status', 'tolak')->latest()->get();
+        if (auth()->user()->email == 'admin@gmail.com') {
+            $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('jenis_tunjangan', 'like', "%$jenis_tunjangan%")->where('status', 'tolak')->latest()->get();
         }
+
         return view('dashboard.karyawan.riwayat-tolak', compact('tunjangans'));
     }
 
@@ -61,14 +59,9 @@ class TunjanganController extends Controller
     {
         $pencarian = request()->cari;
         $tanggal = request()->tanggal;
+        $jenis_tunjangan = request()->jenis;
 
-        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('status', 'sudah')->latest()->get();
-
-        if ($pencarian && $tanggal) {
-            $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('status', 'sudah')->latest()->get();
-        } else if ($tanggal) {
-            $tunjangans = Tunjangan::with('karyawan')->where('created_at', 'like', "%$tanggal%")->where('status', 'sudah')->latest()->get();
-        }
+        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('jenis_tunjangan', 'like', "%$jenis_tunjangan%")->where('status', 'sudah')->latest()->get();
 
         return view('dashboard.admin.tunjangan.index-sudah', compact('tunjangans'));
     }
