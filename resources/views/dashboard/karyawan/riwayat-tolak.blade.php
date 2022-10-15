@@ -1,7 +1,6 @@
 @extends('dashboard.layouts.main')
 
 @section('isi')
-@can('admin')
 <div class="d-flex justify-content-between align-items-center flex-wrap flex-md-nowrap pb-2 mb-3">
    <button type="button" class="btn btn-primary btn-sm rounded-4 d-flex gap-2 align-items-center" data-bs-toggle="modal" data-bs-target="#searchModal">
       <i class="bi bi-search"></i>
@@ -16,7 +15,9 @@
          </div>
          <form method="get">
             <div class="modal-body d-flex flex-column gap-3">
+               @can('admin')
                <input id="cari" class="form-control form-control-sm me-2" type="search" name="cari" value="{{ request()->cari ?? "" }}" placeholder="Ketikkan Nama" aria-label="Pencarian">
+               @endcan
                <input id="tanggal" class="form-control form-control-sm me-2" type="date" name="tanggal" value="{{ request()->tanggal ?? "" }}" placeholder="Masukkan Tanggal" aria-label="Pencarian">
                <select class="form-select" name="jenis" id="select-tunjangan" aria-label=".form-select-sm example">
                   <option value="" selected>Pilih Jenis Tunjangan | Semua</option>
@@ -27,26 +28,21 @@
                </select>
             </div>
             <div class="modal-footer justify-content-between">
-               <a id="reset-admin" href="/tunjangan/tolak" class="btn btn-danger ms-2 {{ request()->cari || request()->tanggal || request()->jenis ? "" : "disabled"}}">Reset</a>
-               <button id="submit-admin" type="submit" class="btn btn-primary" disabled>Cari</button>
+               @can('admin')
+               <a id="reset" href="/tunjangan/tolak" class="btn btn-danger ms-2 {{ request()->cari || request()->tanggal || request()->jenis ? "" : "disabled"}}">Reset</a>
+               @else
+               <a id="reset" href="/riwayat-tunjangan/ditolak" class="btn btn-danger ms-2 {{ request()->cari || request()->tanggal || request()->jenis ? "" : "disabled"}}">Reset</a>
+               @endcan
+               <button id="submit" type="submit" class="btn btn-primary" disabled>Cari</button>
             </div>
          </form>
       </div>
       </div>
    </div>
-</div>
-@else
-<div class="d-md-flex justify-content-between align-items-center flex-wrap flex-md-nowrap pb-2 mb-4">
-   <form class="d-flex col-md-7 col-lg-5 pb-2 mb-2 mb-md-0" role="search" method="get">
-      <input id="tanggal" class="form-control form-control-sm me-2" type="date" name="tanggal" value="{{ request()->tanggal ?? "" }}" placeholder="Masukkan Tanggal" aria-label="Pencarian">
-      <button id="submit" class="btn btn-outline-success btn-sm w-25" disabled type="submit">Cari</button>
-      <a href="/riwayat-tunjangan" class="btn btn-outline-danger btn-sm w-25 ms-2 {{ request()->tanggal ? "" : "disabled"}}">Reset</a>
-   </form>
    @can('karyawan')
-   <a href="/riwayat-tunjangan?{{ request()->cari || request()->tanggal ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal : "" }}" class="btn btn-info text-light btn-sm">Proses</a>
+   <a href="/riwayat-tunjangan?{{ request()->cari || request()->tanggal || request()->jenis ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal . "&jenis=" . request()->jenis : "" }}" class="btn btn-info text-light btn-sm">Proses</a>
    @endcan
 </div>
-@endcan
 
 @if ($tunjangans->isNotEmpty())
 
@@ -118,19 +114,18 @@
 <script>
    $(document).on('change', function() {
       $("#submit").removeAttr('disabled');
-      $("#submit-admin").removeAttr('disabled');
    })
 
    $(window).on('load resize', function() {
       var width = $(window).width();
 
       if(width <= 750) {
-         $("#submit-admin")[0].classList.add('btn-sm')
-         $("#reset-admin")[0].classList.add('btn-sm')
+         $("#submit")[0].classList.add('btn-sm')
+         $("#reset")[0].classList.add('btn-sm')
          $("#select-tunjangan")[0].classList.add('form-select-sm')
       } else if(width > 750) {
-         $("#submit-admin")[0].classList.remove('btn-sm')
-         $("#reset-admin")[0].classList.remove('btn-sm')
+         $("#submit")[0].classList.remove('btn-sm')
+         $("#reset")[0].classList.remove('btn-sm')
          $("#select-tunjangan")[0].classList.remove('form-select-sm')
       }
    })

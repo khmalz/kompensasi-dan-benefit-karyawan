@@ -46,11 +46,7 @@ class TunjanganController extends Controller
         $tanggal = request()->tanggal;
         $jenis_tunjangan = request()->jenis;
 
-        $tunjangans = Tunjangan::where('created_at', 'like', "%$tanggal%")->where('jenis_tunjangan', 'like', "%$jenis_tunjangan%")->where('status', 'tolak')->latest()->get();
-
-        if (auth()->user()->email == 'admin@gmail.com') {
-            $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('jenis_tunjangan', 'like', "%$jenis_tunjangan%")->where('status', 'tolak')->latest()->get();
-        }
+        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('jenis_tunjangan', 'like', "%$jenis_tunjangan%")->where('status', 'tolak')->latest()->get();
 
         return view('dashboard.karyawan.riwayat-tolak', compact('tunjangans'));
     }

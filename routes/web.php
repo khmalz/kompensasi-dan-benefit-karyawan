@@ -32,7 +32,6 @@ Route::get('/', function () {
 
     return Karyawan::with(['user', 'tunjangan'])->get();
 
-    // return $tunjangan_karyawan->tunjangan_kesehatan - $total_tunjangan;
     // return DB::table('users')->rightJoin('karyawans', 'karyawans.user_id', 'users.id')->get();
 });
 
@@ -40,9 +39,9 @@ Route::get('/login', [LoginController::class, 'index'])->middleware('guest')->na
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware('auth')->group(function () {
 
-    Route::middleware(['admin'])->group(function () {
+    Route::middleware('admin')->group(function () {
         Route::resource('/dashboardAdmin', DashboardAdminController::class)->except('show', 'edit', 'update', 'destroy');
         Route::get('/dashboardAdmin/{karyawan}', [DashboardAdminController::class, 'show']);
         Route::get('/dashboardAdmin/{karyawan}/edit', [DashboardAdminController::class, 'edit']);
@@ -55,7 +54,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/tanggapan', TanggapanController::class);
     });
 
-    Route::middleware(['karyawan'])->group(function () {
+    Route::middleware('karyawan')->group(function () {
         Route::patch('ganti-password', [PasswordController::class, 'update'])->name('ganti-password');
 
         Route::resource('/dashboardKaryawan', DashboardKaryawanController::class);

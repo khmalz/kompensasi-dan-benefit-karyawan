@@ -14,7 +14,7 @@
       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <style>
          body {
-            font-size: 0.850rem;
+            font-size: 0.85rem;
             font-family: 'Poppins', sans-serif;
          }
 
@@ -24,10 +24,6 @@
             vertical-align: text-bottom;
          }
 
-         /*
-         * Sidebar
-         */
-
          .sidebar {
             position: fixed;
             top: 0;
@@ -36,16 +32,6 @@
             z-index: 100; /* Behind the navbar */
             padding: 48px 0 0;
             box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
-         }
-
-         @media (max-width: 767.98px) {
-            .sidebar {
-               top: 5rem;
-            }
-
-            .sidebar-sticky {
-               width: 100vw;
-            }
          }
 
          .sidebar-sticky {
@@ -75,10 +61,6 @@
             color: inherit;
          }
 
-         /*
-         * Navbar
-         */
-
          .navbar-brand {
             padding-top: 0.75rem;
             padding-bottom: 0.75rem;
@@ -102,7 +84,15 @@
             }
          }
 
-         @media (max-width: 768px) {
+         @media (max-width: 767.98px) {
+            .sidebar {
+               top: 5rem;
+            }
+
+            .sidebar-sticky {
+               width: 100vw;
+            }
+            
             .w-100 > .row > .fs-6 {
                font-size: 0.8rem !important;
             }
@@ -177,8 +167,6 @@
             </main>
          </div>
       </div>
-
-      <div style="padding: 120px 0"></div>
 
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 

@@ -72,7 +72,7 @@ class DatabaseSeeder extends Seeder
             'karyawan_nik' => 'RTS20210711',
             'jenis_tunjangan' => 'tunjangan_pernikahan',
             'besar_tunjangan' => 2000000,
-            'status' => 'sedang',
+            'status' => 'belum',
             'pesan' => 'Menikah',
             'bukti' => 'bukti/20221005092955.jpg',
             'created_at' => "2022-10-07" . now()->format('H:i:s'),
@@ -84,7 +84,7 @@ class DatabaseSeeder extends Seeder
             'karyawan_nik' => 'RTS20210712',
             'jenis_tunjangan' => 'tunjangan_kesehatan',
             'besar_tunjangan' => 100000,
-            'status' => 'sudah',
+            'status' => 'belum',
             'pesan' => 'Untuk Berobat',
             'bukti' => 'bukti/20221003030840.jpg'
         ]);
