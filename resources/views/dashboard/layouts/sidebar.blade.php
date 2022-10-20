@@ -88,7 +88,7 @@
                         @if ($notification->created_at > now()->subHours(24))  {{-- sehari yang lalu --}}
                         <small><span class="text-secondary d-block mb-1">Hari ini pada {{ $notification->created_at->format('H:i') }} | {{ $notification->created_at->diffForHumans() }}</span></small>
                         @else
-                        <small><span class="text-secondary d-block mb-1">{{ $notification->created_at->isoFormat('D MMMM, Y') }} pada {{ $notification->created_at->format('H:i') }}</span></small>
+                        <small><span class="text-secondary d-block mb-1">{{ $notification->created_at->translatedFormat('d F Y') }} pada {{ $notification->created_at->format('H:i') }}</span></small>
                         @endif
                      </div>
                   </div>
@@ -110,7 +110,7 @@
                         @if ($notification->created_at > now()->subHours(24))  {{-- sehari yang lalu --}}
                         <small><span class="text-secondary d-block mb-1">Hari ini pada {{ $notification->created_at->format('H:i') }} | {{ $notification->created_at->diffForHumans() }}</span></small>
                         @else
-                        <small><span class="text-secondary d-block mb-1">{{ $notification->created_at->isoFormat('D MMMM, Y') }} pada {{ $notification->created_at->format('H:i') }}</span></small>
+                        <small><span class="text-secondary d-block mb-1">{{ $notification->created_at->translatedFormat('d F Y') }} pada {{ $notification->created_at->format('H:i') }}</span></small>
                         @endif
                      </div>
                   </div>

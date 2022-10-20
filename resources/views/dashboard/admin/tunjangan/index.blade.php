@@ -81,7 +81,7 @@
                         <tr>
                            <td>{{ $loop->iteration }}</td>
                            <td>{{ $tunjangan->karyawan->nama }}</td>
-                           <td>{{ $tunjangan->created_at->isoFormat('D MMM Y') }}</td>
+                           <td>{{ $tunjangan->created_at->translatedFormat('d M Y') }}</td>
                            <td >{{ $tunjangan->kode }}</td>
                            <td class="text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</td>
                            <td class="{{ ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] < $tunjangan->besar_tunjangan) ? 'text-danger' : '' }}">{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>
@@ -131,7 +131,7 @@
                         <tr>
                            <td>{{ $loop->iteration }}</td>
                            <td>{{ $tunjangan->karyawan->nama }}</td>
-                           <td>{{ $tunjangan->created_at->isoFormat('D MMM Y') }}</td>
+                           <td>{{ $tunjangan->created_at->translatedFormat('d M Y') }}</td>
                            <td >{{ $tunjangan->kode }}</td>
                            <td class="text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</td>
                            <td>{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>

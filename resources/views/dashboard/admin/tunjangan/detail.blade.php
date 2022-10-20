@@ -129,7 +129,7 @@
             <li class="list-group-item border-0 border-bottom">
                <div class="d-sm-flex justify-content-between">
                   <p class="m-0 mb-1 mb-md-0 fw-bold">Tanggal</p>
-                  <p class="m-0 text-capitalize">{{ $tunjangan->created_at->isoFormat('DD-MM-Y')}}</p>
+                  <p class="m-0 text-capitalize">{{ $tunjangan->created_at->translatedFormat('d F Y')}}</p>
                </div>
             </li>
             <li class="list-group-item border-0 border-bottom">

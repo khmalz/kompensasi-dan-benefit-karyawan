@@ -55,7 +55,7 @@
          @else
          <span>Permintaan Tunjangan dengan kode <a href="/tunjangan/{{ $notification->data['kode'] }}" class="text-danger">{{ $notification->data['kode'] }}</a> <strong>Ditolak</strong> oleh Admin</span>
          @endif
-         <span class="{{ $notification->data['status'] == 'sedang' || $notification->data['status'] == 'sudah' ? "text-secondary" : "text-danger" }} d-block mb-1 mb-md-0">{{ $notification->created_at->isoFormat('D MMMM, Y') }} pada {{ $notification->created_at->format('H:i') }} | {{ $notification->created_at->diffForHumans() }}</span>
+         <span class="{{ $notification->data['status'] == 'sedang' || $notification->data['status'] == 'sudah' ? "text-secondary" : "text-danger" }} d-block mb-1 mb-md-0">{{ $notification->created_at->translatedFormat('d F Y') }} pada {{ $notification->created_at->format('H:i') }} | {{ $notification->created_at->diffForHumans() }}</span>
       </div>
       <a class="{{ $notification->data['status'] == 'sedang' || $notification->data['status'] == 'sudah' ? "text-success" : "text-danger" }}" href="/dibaca/{{ $notification->id }}">Tandai Dibaca</a>
     </div>
@@ -88,7 +88,7 @@
                   <tbody>
                      @foreach ($tunjangans->where('status', 'belum') as $tunjangan)
                      <tr>
-                        <td>{{ $tunjangan->created_at->isoFormat('D MMM Y') }}</td>
+                        <td>{{ $tunjangan->created_at->translatedFormat('d M Y') }}</td>
                         <td >{{ $tunjangan->kode }}</td>
                         <td class="text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</td>
                         <td class="{{ ($tunjangan->karyawan[$tunjangan->jenis_tunjangan] < $tunjangan->besar_tunjangan) ? 'text-danger' : '' }}">{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>
@@ -126,7 +126,7 @@
                   <tbody>
                      @foreach ($tunjangans->where('status', 'sedang') as $tunjangan)
                      <tr>
-                        <td>{{ $tunjangan->created_at->isoFormat('D MMM Y') }}</td>
+                        <td>{{ $tunjangan->created_at->translatedFormat('d M Y') }}</td>
                         <td >{{ $tunjangan->kode }}</td>
                         <td class="text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</td>
                         <td>{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>
@@ -164,7 +164,7 @@
                   <tbody>
                      @foreach ($tunjangans->where('status', 'sudah') as $tunjangan)
                      <tr>
-                        <td>{{ $tunjangan->created_at->isoFormat('D MMM Y') }}</td>
+                        <td>{{ $tunjangan->created_at->translatedFormat('d M Y') }}</td>
                         <td >{{ $tunjangan->kode }}</td>
                         <td class="text-capitalize">{{ str_replace("_", " ", $tunjangan->jenis_tunjangan) }}</td>
                         <td>{{ number_format($tunjangan->besar_tunjangan, 0, '', '.') }}</td>

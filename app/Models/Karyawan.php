@@ -16,7 +16,7 @@ class Karyawan extends Model
 
     public function getTanggalMasukAttribute($value)
     {
-        return Carbon::parse($value)->isoFormat('DD MMM Y');
+        return Carbon::parse($value)->translatedFormat('d F Y');
     }
 
     public function user()
