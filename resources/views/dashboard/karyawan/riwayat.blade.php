@@ -2,14 +2,6 @@
 
 @section('isi')
 
-@if (session()->has('success'))
-   <div class="row g-0 pb-2">
-      <div class="alert alert-success" role="alert">
-         {{ session('success') }}
-      </div>
-   </div>
-@endif
-
 <div class="d-flex justify-content-between align-items-center flex-wrap flex-md-nowrap pb-2 mb-3">
    <button type="button" class="btn btn-primary btn-sm rounded-4 d-flex gap-2 align-items-center" data-bs-toggle="modal" data-bs-target="#searchModal">
       <i class="bi bi-search"></i>
@@ -43,6 +35,14 @@
    </div>
    <a href="/riwayat-tunjangan/ditolak?{{ request()->cari || request()->tanggal || request()->jenis ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal . "&jenis=" . request()->jenis : "" }}" class="btn btn-danger btn-sm">Di Tolak</a>
 </div>
+
+@if (session()->has('success'))
+   <div class="row g-0 pb-2">
+      <div class="alert alert-success" role="alert">
+         {{ session('success') }}
+      </div>
+   </div>
+@endif
 
 @foreach (auth()->user()->unreadnotifications as $notification)
 <div class="row g-0 mb-4">
