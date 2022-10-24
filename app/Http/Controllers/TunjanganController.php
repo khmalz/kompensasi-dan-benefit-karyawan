@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Karyawan;
 use App\Models\Tunjangan;
@@ -169,8 +170,26 @@ class TunjanganController extends Controller
 
     public function pdf(Tunjangan $tunjangan)
     {
-        // return view('pdf', compact('tunjangan'));
         $pdf = Pdf::loadView('pdf', compact('tunjangan'));
         return $pdf->download('tunjangan_' . $tunjangan->kode . '.pdf');
+    }
+
+    public function pdfSudah()
+    {
+        $tunjangans = Tunjangan::with('karyawan')->where('status', 'sudah')->whereBetween('created_at', [request('awal'), request('akhir')])->oldest()->get();
+
+        if (request('semua')) {
+            $tunjangans = Tunjangan::with('karyawan')->where('status', 'sudah')->oldest()->get();
+        }
+
+        if ($tunjangans->isEmpty()) {
+            return back()->with('kosong', 'Maaf, Tunjangan Yang Ingin di Eksport Tidak Ada');
+        }
+
+        $jumlahTunjangan = $tunjangans->sum('besar_tunjangan');
+
+        $pdf = Pdf::loadView('pdf-sudah', compact('tunjangans', 'jumlahTunjangan'));
+        return $pdf->stream('tunjangan_sudah.pdf');
+        // return $pdf->download('tunjangan_sudah.pdf');
     }
 }

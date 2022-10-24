@@ -1,17 +1,18 @@
 <?php
 
+use Carbon\Carbon;
 use App\Models\Karyawan;
 use App\Models\Tunjangan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\TanggapanController;
 use App\Http\Controllers\TunjanganController;
 use App\Http\Controllers\DashboardAdminController;
-use App\Http\Controllers\DashboardKaryawanController;
-use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RiwayatTunjanganController;
+use App\Http\Controllers\DashboardKaryawanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/tunjangan/tolak', [TunjanganController::class, 'tolak']);
         Route::get('/tunjangan/sudah', [TunjanganController::class, 'sudah']);
+        Route::post('/tunjangan/sudah/pdf', [TunjanganController::class, 'pdfSudah']);
 
         Route::resource('/tanggapan', TanggapanController::class);
     });

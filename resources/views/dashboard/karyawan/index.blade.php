@@ -145,7 +145,7 @@
    if ( $("#password_berhasil").length) {
       setTimeout(() => {
          $("#password_berhasil").attr('hidden', true);
-      }, 2000);
+      }, 3000);
    }
 
    $(document).ready(function() {

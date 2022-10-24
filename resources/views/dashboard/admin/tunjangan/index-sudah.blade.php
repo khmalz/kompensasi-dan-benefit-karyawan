@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main')
 
 @section('isi')
-<div class="d-flex justify-content-between align-items-center flex-wrap flex-md-nowrap pb-2 mb-3">
+<div class="d-sm-flex justify-content-between align-items-center flex-wrap flex-md-nowrap pb-2 mb-3">
    <button type="button" class="btn btn-primary btn-sm rounded-4 d-flex gap-2 align-items-center" data-bs-toggle="modal" data-bs-target="#searchModal">
       <i class="bi bi-search"></i>
       Pencarian
@@ -33,9 +33,51 @@
       </div>
       </div>
    </div>
+  <div class="d-flex gap-3 mt-sm-0 mt-3">
+     <button type="button" class="btn btn-info text-light btn-sm" data-bs-toggle="modal" data-bs-target="#modalExport">Eksport Data</button>
+   
+   <div class="modal fade" id="modalExport" tabindex="-1" aria-labelledby="modalExportLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+         <div class="modal-header justify-content-center">
+            <h1 class="modal-title fs-5" id="modalExportLabel">Eksport ke PDF</h1>
+         </div>
+         <form action="/tunjangan/sudah/pdf" method="post">
+            @csrf
+            <div class="modal-body">
+               <div class="mb-3">
+                  <label for="awal" class="form-label" style="font-size: 0.88rem !important">Dari Tanggal</label>
+                  <input required id="awal" class="form-control form-control-sm me-2" type="date" name="awal" placeholder="Masukkan Awal Tanggal" aria-label="Pencarian">
+               </div>
+               <div class="mb-3">
+                  <label for="akhir" class="form-label" style="font-size: 0.88rem !important">Sampai Tanggal</label>
+                  <input required id="akhir" class="form-control form-control-sm me-2" type="date" name="akhir" placeholder="Masukkan Akhir Tanggal" aria-label="Pencarian">
+               </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+               <a href="#" id="semua" class="btn btn-primary text-light btn-sm">Semua Data</a>
+               <button type="submit" class="btn btn-info text-light btn-sm">Eksport</button>
+            </div>
+         </form>
+      </div>
+      </div>
+   </div>
    <a href="{{ route('tunjangan.index', request()->cari || request()->tanggal || request()->jenis ? "cari=" . request()->cari . "&tanggal=" . request()->tanggal . "&jenis=" . request()->jenis : "" ) }}" class="btn btn-warning text-light btn-sm">Belum / Sedang Diproses</a>
+  </div>
 </div>
 
+<form action="/tunjangan/sudah/pdf" id="semua-data" method="post">
+   @csrf
+   <input type="hidden" name="semua" value="semua">
+</form>
+
+@if (session()->has('kosong'))
+<div class="row g-0">
+   <div class="alert alert-warning" role="alert">
+      {{ session('kosong') }}
+   </div>
+</div>
+@endif
 
 @if ($tunjangans->where('status', 'sudah')->isNotEmpty())
 <div class="row">
@@ -101,6 +143,11 @@
 @endif
 
 <script>
+
+   $("#semua").on('click', function() {
+      $("#semua-data").submit()
+   })
+   
    $(document).on('change', function() {
       $("#submit").removeAttr('disabled');
    })
