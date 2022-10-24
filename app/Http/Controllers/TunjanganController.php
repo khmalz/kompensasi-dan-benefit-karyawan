@@ -26,7 +26,7 @@ class TunjanganController extends Controller
         $tanggal = $request->tanggal;
         $jenis_tunjangan = $request->jenis;
 
-        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('jenis_tunjangan', 'like', "%$jenis_tunjangan%")->whereIn('status', ['belum', 'sedang'])->latest()->get();
+        $tunjangans = Tunjangan::whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('jenis_tunjangan', 'like', "%$jenis_tunjangan%")->whereIn('status', ['belum', 'sedang'])->latest()->get();
 
         return view('dashboard.admin.tunjangan.index', compact('tunjangans'));
     }
@@ -47,7 +47,7 @@ class TunjanganController extends Controller
         $tanggal = request()->tanggal;
         $jenis_tunjangan = request()->jenis;
 
-        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('jenis_tunjangan', 'like', "%$jenis_tunjangan%")->where('status', 'tolak')->latest()->get();
+        $tunjangans = Tunjangan::whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('jenis_tunjangan', 'like', "%$jenis_tunjangan%")->where('status', 'tolak')->latest()->get();
 
         return view('dashboard.karyawan.riwayat-tolak', compact('tunjangans'));
     }
@@ -58,7 +58,7 @@ class TunjanganController extends Controller
         $tanggal = request()->tanggal;
         $jenis_tunjangan = request()->jenis;
 
-        $tunjangans = Tunjangan::with('karyawan')->whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('jenis_tunjangan', 'like', "%$jenis_tunjangan%")->where('status', 'sudah')->latest()->get();
+        $tunjangans = Tunjangan::whereRelation('karyawan', 'nama', 'like', "%$pencarian%")->where('created_at', 'like', "%$tanggal%")->where('jenis_tunjangan', 'like', "%$jenis_tunjangan%")->where('status', 'sudah')->latest()->get();
 
         return view('dashboard.admin.tunjangan.index-sudah', compact('tunjangans'));
     }
@@ -176,10 +176,10 @@ class TunjanganController extends Controller
 
     public function pdfSudah()
     {
-        $tunjangans = Tunjangan::with('karyawan')->where('status', 'sudah')->whereBetween('created_at', [request('awal'), request('akhir')])->oldest()->get();
+        $tunjangans = Tunjangan::where('status', 'sudah')->whereTanggal([request('awal'), request('akhir')])->oldest()->get();
 
         if (request('semua')) {
-            $tunjangans = Tunjangan::with('karyawan')->where('status', 'sudah')->oldest()->get();
+            $tunjangans = Tunjangan::where('status', 'sudah')->oldest()->get();
         }
 
         if ($tunjangans->isEmpty()) {

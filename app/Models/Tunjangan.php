@@ -12,6 +12,7 @@ class Tunjangan extends Model
 
     protected $primaryKey = 'kode';
     public $incrementing = false;
+    protected $with = ['karyawan'];
 
     public function karyawan()
     {
@@ -26,5 +27,10 @@ class Tunjangan extends Model
     public function getRouteKeyName()
     {
         return 'kode';
+    }
+
+    public function scopeWhereTanggal($query, array $tanggal)
+    {
+        return $query->whereBetween('created_at', [$tanggal[0], $tanggal[1]]);
     }
 }
