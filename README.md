@@ -34,7 +34,7 @@ composer install
 npm install
 ```
 
-**Config Environtemtn**
+**Config Environment**
 
 ```shell
 cp .env.example .env
