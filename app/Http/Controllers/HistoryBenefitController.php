@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BenefitStatus;
 use Carbon\Carbon;
 use App\Models\Benefit;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class HistoryBenefitController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $status = $request->status ?? 'menunggu';
+        $status = $request->status ?? BenefitStatus::MENUNGGU->value;
         $employeeUserID  = (int) $request->user()->employee->id;
 
         $benefits = Benefit::with("employee.user:id,name")

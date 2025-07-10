@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Benefit;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -14,12 +15,7 @@ class BenefitNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(public $code, public $type, public $status)
-    {
-        $this->code = $code;
-        $this->type = $type;
-        $this->status = $status;
-    }
+    public function __construct(public Benefit $benefit) {}
 
     /**
      * Get the notification's delivery channels.
@@ -39,9 +35,9 @@ class BenefitNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'code' => $this->code,
-            'type' => $this->type,
-            'status' => $this->status
+            'code' => $this->benefit->code,
+            'type' => $this->benefit->type,
+            'status' => $this->benefit->status->value
         ];
     }
 }

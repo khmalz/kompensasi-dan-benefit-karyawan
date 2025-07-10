@@ -10,16 +10,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BenefitRequest;
 use App\Actions\Benefit\CreateBenefit;
 use App\Actions\Benefit\DeleteBenefit;
+use App\Enums\BenefitStatus;
 use Illuminate\Validation\ValidationException;
 
 class BenefitController extends Controller
 {
     public function index(Request $request)
     {
-        $status = $request->status ?? 'menunggu';
+        $status = $request->status ?? BenefitStatus::MENUNGGU->value;
 
         $benefits = Benefit::with("employee.user:id,name")
-            ->status($status)
+            ->whereNot('status', BenefitStatus::SELESAI)
             ->when($request->has('nama') && !empty($request->nama), function ($query) use ($request) {
                 return $query->whereUserName($request->nama);
             })
@@ -39,7 +40,7 @@ class BenefitController extends Controller
     public function done(Request $request)
     {
         $benefits = Benefit::with("employee.user:id,name")
-            ->whereStatus(Benefit::SELESAI)
+            ->whereStatus(BenefitStatus::SELESAI)
             ->when($request->has('nama') && !empty($request->nama), function ($query) use ($request) {
                 return $query->whereUserName($request->nama);
             })

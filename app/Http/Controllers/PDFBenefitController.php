@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BenefitStatus;
 use App\Models\Benefit;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -16,7 +17,7 @@ class PDFBenefitController extends Controller
 
     public function done(Request $request)
     {
-        $benefits = Benefit::where('status', Benefit::SELESAI)
+        $benefits = Benefit::whereStatus(BenefitStatus::SELESAI)
             ->when(!$request->has("all"), function ($query) use ($request) {
                 $query->whereBetweenDate([$request->started_at, $request->ended_at]);
             })

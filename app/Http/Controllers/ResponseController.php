@@ -13,7 +13,7 @@ class ResponseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ResponseRequest $request, Benefit $benefit, CreateResponse $action)
+    public function __invoke(ResponseRequest $request, Benefit $benefit, CreateResponse $action)
     {
         $responseData = ResponseData::fromArray($request->validated());
 

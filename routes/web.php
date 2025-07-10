@@ -17,7 +17,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/benefit', [BenefitController::class, 'index'])->name('benefit.index');
         Route::get('/benefit-done', [BenefitController::class, 'done'])->name('benefit.done');
-        Route::post('/response/{benefit}', [ResponseController::class, 'store'])->name('response.store');
+        Route::post('/response/{benefit}', ResponseController::class)->name('response.store');
 
         Route::post('/benefit/sudah/pdf', [PDFBenefitController::class, 'done'])->name('benefit.pdf.done');
     });

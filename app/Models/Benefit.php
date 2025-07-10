@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BenefitStatus;
 use Carbon\Carbon;
 use App\Helpers\MixCaseULID;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -14,11 +15,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Benefit extends Model
 {
     use HasFactory;
-
-    const MENUNGGU = 'pending';
-    const PROSES = 'progress';
-    const SELESAI = 'done';
-    const TOLAK = 'reject';
 
     protected $fillable = [
         'code',
@@ -42,6 +38,10 @@ class Benefit extends Model
         });
     }
 
+    protected $casts = [
+        'status' => BenefitStatus::class,
+    ];
+
     public function getRouteKeyName(): string
     {
         return 'code';
@@ -58,36 +58,29 @@ class Benefit extends Model
     }
 
     #[Scope]
-    public function status(Builder $query, string $status): Builder
+    protected function status(Builder $query, string $status): Builder
     {
-        $statuses = [
-            'menunggu' => self::MENUNGGU,
-            'proses' => self::PROSES,
-            'selesai' => self::SELESAI,
-            'ditolak' => self::TOLAK,
-        ];
+        $statusEnum = BenefitStatus::tryFrom($status);
 
-        if (array_key_exists($status, $statuses)) {
-            return $query->where('status', $statuses[$status]);
-        }
-
-        return $query;
+        return $query->when($statusEnum, function ($q, $enum) {
+            $q->whereStatus($enum);
+        });
     }
 
     #[Scope]
-    public function whereStatus(Builder $query, string $status): Builder
+    protected function whereStatus(Builder $query, BenefitStatus $status): Builder
     {
         return $query->where('status', $status);
     }
 
     #[Scope]
-    public function whereEmployeeID(Builder $query, int $employeeID): Builder
+    protected function whereEmployeeID(Builder $query, int $employeeID): Builder
     {
         return $query->where('employee_id', $employeeID);
     }
 
     #[Scope]
-    public function whereUserName(Builder $query, string $nama): Builder
+    protected function whereUserName(Builder $query, string $nama): Builder
     {
         return $query->whereHas('employee.user', function ($q) use ($nama) {
             $q->where('name', 'like', $nama);
@@ -95,13 +88,13 @@ class Benefit extends Model
     }
 
     #[Scope]
-    public function whereType(Builder $query, string $type): Builder
+    protected function whereType(Builder $query, string $type): Builder
     {
         return $query->where('type', $type);
     }
 
     #[Scope]
-    public function whereBetweenDate(Builder $query, array $dates): Builder
+    protected function whereBetweenDate(Builder $query, array $dates): Builder
     {
         return $query->whereBetween('created_at', [
             Carbon::createFromFormat('d-m-Y', $dates[0])->startOfDay(),

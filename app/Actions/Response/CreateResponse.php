@@ -5,6 +5,7 @@ namespace App\Actions\Response;
 use App\Models\Benefit;
 use App\Models\Response;
 use App\DTO\ResponseData;
+use App\Enums\BenefitStatus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -24,7 +25,7 @@ class CreateResponse
                 'status' => $responseData->status,
             ]);
 
-            if ($responseData->status == Benefit::SELESAI) {
+            if ($responseData->status == BenefitStatus::SELESAI) {
                 $benefitType = $benefit->type;
                 $benefitAmount = $benefit->amount;
                 $currentAmount = $benefit->employee()->value($benefitType);
