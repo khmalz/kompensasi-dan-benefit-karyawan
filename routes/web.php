@@ -9,9 +9,7 @@ use App\Http\Controllers\Admin\EmployeeControlller;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PDFBenefitController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::permanentRedirect('/', '/login');
 
 Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
@@ -19,8 +17,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/benefit', [BenefitController::class, 'index'])->name('benefit.index');
         Route::get('/benefit-done', [BenefitController::class, 'done'])->name('benefit.done');
- 
-        Route::post('/response/{benefit}', [ResponseController::class, 'store'])->name('response.store');
+        Route::post('/response/{benefit}', ResponseController::class)->name('response.store');
 
         Route::post('/benefit/sudah/pdf', [PDFBenefitController::class, 'done'])->name('benefit.pdf.done');
     });

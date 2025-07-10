@@ -27,6 +27,6 @@ class ResponseObserver implements ShouldHandleEventsAfterCommit
 
     private function sendEmail(Response $response)
     {
-        Notification::send($response->benefit->employee->user, new BenefitNotification($response->benefit->code, $response->benefit->type, $response->benefit->status));
+        Notification::send($response->benefit->employee->user, new BenefitNotification($response->benefit));
     }
 }

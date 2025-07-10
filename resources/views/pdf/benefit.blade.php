@@ -112,7 +112,7 @@
                         <div class="d-sm-flex justify-content-between">
                             <p class="fw-bold">Status</p>
                             @php
-                                $status = strtolower($benefit->status);
+                                $status = strtolower($benefit->status->value);
                                 [$color, $text] = match ($status) {
                                     'done' => ['text-primary', 'Selesai'],
                                     'progress' => ['text-warning', 'Proses'],

@@ -38,7 +38,7 @@
             </div>
         @endif
 
-        @if (\Illuminate\Support\Facades\Hash::check('password', auth()->user()->password))
+        @if (\Illuminate\Support\Facades\Hash::check('password', auth()->user()->getAuthPassword()))
             <div class="w-full rounded-lg bg-white p-5">
                 <h2 class="mb-3 text-xl font-semibold">Ganti Password</h2>
 

@@ -166,7 +166,7 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         @php
-                                            $status = strtolower($benefit->status);
+                                            $status = strtolower($benefit->status->value);
                                             [$color, $text] = match ($status) {
                                                 'pending' => ['bg-purple-500 text-purple-800', 'Menunggu'],
                                                 'progress' => ['bg-yellow-300 text-yellow-800', 'Proses'],

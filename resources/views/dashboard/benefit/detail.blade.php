@@ -90,7 +90,7 @@
                         <div class="flex justify-between">
                             <span class="">Status</span>
                             @php
-                                $status = strtolower($benefit->status);
+                                $status = strtolower($benefit->status->value);
                                 [$color, $text] = match ($status) {
                                     'pending' => ['text-purple-800', 'Menunggu'],
                                     'progress' => ['text-yellow-800', 'Proses'],
@@ -172,7 +172,8 @@
                     </svg>
                     <h3 class="mb-5 text-lg font-normal text-gray-500">Ekspor Data?</h3>
 
-                    <form class="inline-block" action="{{ route('benefit.pdf', $benefit) }}" method="POST">
+                    <form class="inline-block" action="{{ route('benefit.pdf', $benefit) }}" method="POST"
+                        target="_blank">
                         @csrf
 
                         <button
@@ -263,12 +264,13 @@
                                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
                                 id="status" name="status" required>
                                 <option selected disabled>Pilih status</option>
-                                <option value="reject" @selected(old('status') == 'reject') @disabled($benefit->status == 'reject')>Menolak
-                                </option>
-                                <option value="progress" @selected(old('status') == 'progress') @disabled($benefit->status == 'progress' || $isBenefitExceededLimit)>Proses
-                                </option>
-                                <option value="done" @selected(old('status') == 'done') @disabled($isBenefitExceededLimit)>Selesai
-                                </option>
+
+                                @foreach (App\Enums\BenefitStatus::values() as $value => $name)
+                                    <option value="{{ $value }}" @selected(old('status', $benefit->status->value) == $value)
+                                        @disabled($value === 'reject' || ($value === 'progress' && $isBenefitExceededLimit))>
+                                        {{ $name }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-5">

@@ -13,6 +13,7 @@ class CreateEmployee
         DB::transaction(function () use ($dataEmployee) {
             $user = User::create($dataEmployee->toArray());
             $user->employee()->create($dataEmployee->toArray());
+            $user->assignRole('employee');
         });
     }
 }

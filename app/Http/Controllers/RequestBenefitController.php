@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BenefitStatus;
 use App\Models\Benefit;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,9 @@ class RequestBenefitController extends Controller
 
     public function edit(Request $request, Benefit $benefit)
     {
-        abort_if(
-            !($benefit->employee->user_id === auth()->user()->id && in_array($benefit->status, [Benefit::TOLAK, Benefit::MENUNGGU])),
+        abort_unless(
+            auth()->user()->id === $benefit->employee->user_id &&
+                in_array($benefit->status, [BenefitStatus::TOLAK, BenefitStatus::MENUNGGU]),
             403
         );
 
