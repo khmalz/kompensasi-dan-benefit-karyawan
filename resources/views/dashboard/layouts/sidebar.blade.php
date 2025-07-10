@@ -2,9 +2,8 @@
     class="fixed left-0 top-0 z-40 h-screen w-52 -translate-x-full transition-transform sm:w-56 sm:translate-x-0 md:w-64"
     id="separator-sidebar" aria-label="Sidebar">
     <div class="h-full overflow-y-auto bg-gray-50 px-3 py-4">
-        <h2 class="mb-3 text-center text-xl font-semibold text-gray-900 md:text-2xl"><a
-                href="{{ route('home') }}">Employee
-                Benefits</a>
+        <h2 class="mb-3 text-center text-xl font-semibold text-gray-900 md:text-2xl">Employee
+                Benefits
         </h2>
         <ul class="space-y-2 px-1 font-medium">
             @role('admin')
