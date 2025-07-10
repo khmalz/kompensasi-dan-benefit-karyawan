@@ -79,7 +79,7 @@
                                 <span class="sr-only">Close modal</span>
                             </button>
                         </div>
-                        <form id="export-data" action="{{ route('benefit.pdf.done') }}" method="POST">
+                        <form id="export-data" action="{{ route('benefit.pdf.done') }}" method="POST" target="_blank">
                             @csrf
                             <div class="p-4 md:p-5">
                                 <div class="mb-2">
@@ -97,8 +97,8 @@
                                         <input
                                             class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
                                             id="inp-started_at" name="started_at" type="text"
-                                            value="{{ old('started_at') }}" autocomplete="off" datepicker-buttons datepicker
-                                            datepicker-autohide placeholder="Pilih dari tanggal" required>
+                                            value="{{ old('started_at') }}" autocomplete="off" datepicker-buttons
+                                            datepicker datepicker-autohide placeholder="Pilih dari tanggal" required>
                                     </div>
                                 </div>
                                 <div class="mb-2">
@@ -135,7 +135,7 @@
                         </form>
 
                         <form class="hidden" id="export-all-data" action="{{ route('benefit.pdf.done') }}"
-                            method="POST">
+                            method="POST" target="_blank">
                             @csrf
                             <input name="all" type="hidden" value="all">
                         </form>

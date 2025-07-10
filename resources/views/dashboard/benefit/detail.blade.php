@@ -172,7 +172,7 @@
                     </svg>
                     <h3 class="mb-5 text-lg font-normal text-gray-500">Ekspor Data?</h3>
 
-                    <form class="inline-block" action="{{ route('benefit.pdf', $benefit) }}" method="POST">
+                    <form class="inline-block" action="{{ route('benefit.pdf', $benefit) }}" method="POST" target="_blank">
                         @csrf
 
                         <button

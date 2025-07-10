@@ -17,9 +17,7 @@ class PDFBenefitController extends Controller
     public function done(Request $request)
     {
         $benefits = Benefit::where('status', Benefit::SELESAI)
-            ->when($request->has("all"), function ($query) {
-                $query;
-            }, function ($query) use ($request) {
+            ->when(!$request->has("all"), function ($query) use ($request) {
                 $query->whereBetweenDate([$request->started_at, $request->ended_at]);
             })
             ->latest()->get();
