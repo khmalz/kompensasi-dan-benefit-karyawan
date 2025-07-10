@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Helpers\MixCaseULID;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -56,7 +57,8 @@ class Benefit extends Model
         return $this->hasOne(Response::class, 'benefit_id');
     }
 
-    public function scopeStatus(Builder $query, string $status): Builder
+    #[Scope]
+    public function status(Builder $query, string $status): Builder
     {
         $statuses = [
             'menunggu' => self::MENUNGGU,
@@ -72,29 +74,34 @@ class Benefit extends Model
         return $query;
     }
 
-    public function scopeWhereStatus(Builder $query, string $status)
+    #[Scope]
+    public function whereStatus(Builder $query, string $status): Builder
     {
         return $query->where('status', $status);
     }
 
-    public function scopeWhereEmployeeID(Builder $query, int $employeeID)
+    #[Scope]
+    public function whereEmployeeID(Builder $query, int $employeeID): Builder
     {
         return $query->where('employee_id', $employeeID);
     }
 
-    public function scopeWhereUserName(Builder $query, string $nama)
+    #[Scope]
+    public function whereUserName(Builder $query, string $nama): Builder
     {
         return $query->whereHas('employee.user', function ($q) use ($nama) {
             $q->where('name', 'like', $nama);
         });
     }
 
-    public function scopeWhereType(Builder $query, string $type)
+    #[Scope]
+    public function whereType(Builder $query, string $type): Builder
     {
         return $query->where('type', $type);
     }
 
-    public function scopeWhereBetweenDate(Builder $query, array $dates)
+    #[Scope]
+    public function whereBetweenDate(Builder $query, array $dates): Builder
     {
         return $query->whereBetween('created_at', [
             Carbon::createFromFormat('d-m-Y', $dates[0])->startOfDay(),
